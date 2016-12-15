@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorBackground"
     tools:context="com.example.tsuka.stockpileloanapplication.MainActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -18,7 +19,7 @@
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:text="備蓄品貸借アプリ"
+            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
@@ -32,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:text="パーソナルデータ登録"
+            android:text="@string/personal_data_entry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/personalEntry"
@@ -43,10 +44,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="32dp"
+            android:onClick="onPersonalEntryClick" />
 
         <Button
-            android:text="備蓄品データ登録"
+            android:text="@string/stockpile_entry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/stockpileEntry"
@@ -58,7 +60,7 @@
             tools:layout_constraintLeft_creator="1" />
 
         <Button
-            android:text="備蓄品マップ"
+            android:text="@string/stockpile_map"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/stockpileMap"
@@ -79,7 +81,7 @@
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintLeft_creator="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="備蓄品マップを利用する" />
+            android:text="@string/map_open_switch_text" />
 
     </android.support.constraint.ConstraintLayout>
 
