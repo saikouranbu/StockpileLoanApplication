@@ -10,4 +10,8 @@
     <string name="contact_info_edit_hint">災害時に表示する連絡先</string>
     <string name="contact_info_2">連絡先2</string>
     <string name="contact_info_edit_hint_2">例:電話番号、LINE IDなど</string>
+    <string name="get_location">位置情報を取得</string>
+    <string name="conf_location">位置情報を確認</string>
+    <string name="entry">登録</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
