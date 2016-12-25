@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,18 +14,46 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public class PersonalEntryActivity extends AppCompatActivity {
     private LocationManager locationManager;
-    private LatLng latLng;
+
+    private RelativeLayout back;
+
+    private EditText numPeopleEdit, contactInfoEdit, contactInfoEdit2;
+    private View.OnFocusChangeListener focusChangeListener;
+
+    private String strLatitude;
+    private String strLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_entry);
+
+        back = (RelativeLayout) findViewById(R.id.activity_personal_entry);
+
+        focusChangeListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    // フォーカスが外れた場合キーボードを非表示にする
+                    InputMethodManager inputMethodMgr = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        };
+
+        numPeopleEdit = (EditText) findViewById(R.id.numPeopleEdit);
+        numPeopleEdit.setOnFocusChangeListener(focusChangeListener);
+        contactInfoEdit = (EditText) findViewById(R.id.contactInfoEdit);
+        contactInfoEdit.setOnFocusChangeListener(focusChangeListener);
+        contactInfoEdit2 = (EditText) findViewById(R.id.contactInfoEdit2);
+        contactInfoEdit2.setOnFocusChangeListener(focusChangeListener);
     }
 
     // 位置情報を取得ボタンを押下時の挙動
@@ -38,6 +67,8 @@ public class PersonalEntryActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // はい ボタンクリック処理
+                        Toast.makeText(PersonalEntryActivity.this, "取得完了メッセージが出るまで待機してください", Toast.LENGTH_SHORT).show();
+
                         // 位置情報を取得する
                         getLocation();
                     }
@@ -58,12 +89,12 @@ public class PersonalEntryActivity extends AppCompatActivity {
     // 位置情報を確認ボタンを押下時の挙動
     public void onConfLocationClick(View v) {
         // 位置情報を取得済みかどうかの確認
-        if(latLng == null){
+        if (strLatitude == null) {
             Toast.makeText(PersonalEntryActivity.this, "現在位置を取得してください", Toast.LENGTH_SHORT).show();
             return;
         }
 
-    // 位置情報を確認する場所の確認ダイアログの生成
+        // 位置情報を確認する場所の確認ダイアログの生成
         AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
         alertDlg.setTitle("位置情報を確認");
         alertDlg.setMessage("現在位置をGoogleMapで確認します");
@@ -72,8 +103,15 @@ public class PersonalEntryActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // はい ボタンクリック処理
-                        // 位置情報を取得する
-                        Toast.makeText(PersonalEntryActivity.this, "位置を確認します", Toast.LENGTH_SHORT).show();
+                        // GoogleMapを開いて位置情報を確認する
+                        Intent intent = new Intent(PersonalEntryActivity.this, MapsActivity.class);
+
+                        // 位置情報をMapsActivityに受け渡す
+                        intent.putExtra("lat", strLatitude);
+                        intent.putExtra("lng", strLongitude);
+
+                        // MapsActivityに遷移
+                        startActivity(intent);
                     }
                 });
         alertDlg.setNegativeButton(
@@ -104,18 +142,17 @@ public class PersonalEntryActivity extends AppCompatActivity {
                                 != PackageManager.PERMISSION_GRANTED)
                             return;
                         // テキストとログに位置情報を表示
-                        String strLatitude = String.valueOf(location.getLatitude());
-                        String strLongitude = String.valueOf(location.getLongitude());
-                        Log.d("GPS", strLatitude + "," + strLongitude);
-                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        strLatitude = String.valueOf(location.getLatitude());
+                        strLongitude = String.valueOf(location.getLongitude());
+                        // Log.d("GPS", strLatitude + "," + strLongitude);
 
-                        Toast.makeText(PersonalEntryActivity.this, "現在位置を取得しました", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PersonalEntryActivity.this, "現在位置の取得が完了しました", Toast.LENGTH_SHORT).show();
                         locationManager.removeUpdates(this);
                     }
 
                     @Override
                     public void onProviderDisabled(String provider) {
-
+                        Toast.makeText(PersonalEntryActivity.this, "位置情報がOFFになっています", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -129,5 +166,10 @@ public class PersonalEntryActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    // 画面タップ時にフォーカスを背景に移すためのメソッド
+    public void onBackClick(View v) {
+        back.requestFocus();
     }
 }
