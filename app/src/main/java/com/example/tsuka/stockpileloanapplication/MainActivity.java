@@ -11,11 +11,14 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_LOCATION = 1; // 識別用:位置情報の許可
+    private UseProperties useProperties;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        useProperties = new UseProperties();
     }
 
     // パーソナルデータ登録ボタンを押下時の挙動
@@ -33,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 備蓄品データ登録ボタンを押下時の挙動
+    public void onStockpileEntryClick(View v) {
+        if (!isPersonalDataEmpty()) return;
+        Toast.makeText(this, "登録済み", Toast.LENGTH_SHORT).show();
+    }
+
     // パーミッションの許可を求めるダイアログ選択時に呼び出される
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         // 位置情報の権限を求める
@@ -46,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 // 許可されなかった場合
                 Toast.makeText(this, "位置情報の許可を出さない限りアプリを利用できません", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private boolean isPersonalDataEmpty() {
+        if (useProperties.isEmpty()) {
+            return true;
+        } else {
+            Toast.makeText(this, "パーソナルデータを登録してください", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 }
