@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        useProperties = new UseProperties();
     }
 
     // パーソナルデータ登録ボタンを押下時の挙動
@@ -59,10 +57,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isPersonalDataEmpty() {
+        useProperties = new UseProperties(getApplicationContext());
+        useProperties.logProperties();
         if (useProperties.isEmpty()) {
+            useProperties = null;
             return true;
         } else {
             Toast.makeText(this, "パーソナルデータを登録してください", Toast.LENGTH_SHORT).show();
+            useProperties = null;
             return false;
         }
     }

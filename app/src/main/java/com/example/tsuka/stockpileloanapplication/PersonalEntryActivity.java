@@ -26,7 +26,7 @@ public class PersonalEntryActivity extends AppCompatActivity {
     private EditText numPeopleEdit, contactInfoEdit, contactInfoEdit2;
     private View.OnFocusChangeListener focusChangeListener;
 
-    private Double latitude, longitude;
+    private String strLatitude, strLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class PersonalEntryActivity extends AppCompatActivity {
     // 位置情報を確認ボタンを押下時の挙動
     public void onConfLocationClick(View v) {
         // 位置情報を取得済みかどうかの確認
-        if (latitude == null) {
+        if (strLatitude == null) {
             Toast.makeText(PersonalEntryActivity.this, "現在位置を取得してください", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -108,8 +108,6 @@ public class PersonalEntryActivity extends AppCompatActivity {
                         Intent intent = new Intent(PersonalEntryActivity.this, MapsActivity.class);
 
                         // 位置情報をMapsActivityに受け渡す
-                        String strLatitude = String.valueOf(latitude);
-                        String strLongitude = String.valueOf(longitude);
                         intent.putExtra("lat", strLatitude);
                         intent.putExtra("lng", strLongitude);
 
@@ -145,8 +143,8 @@ public class PersonalEntryActivity extends AppCompatActivity {
                                 != PackageManager.PERMISSION_GRANTED)
                             return;
                         // 緯度と経度を取得
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
+                        strLatitude = String.valueOf(location.getLatitude());
+                        strLongitude = String.valueOf(location.getLongitude());
 
                         Toast.makeText(PersonalEntryActivity.this, "現在位置の取得が完了しました", Toast.LENGTH_SHORT).show();
                         locationManager.removeUpdates(this);
@@ -181,7 +179,7 @@ public class PersonalEntryActivity extends AppCompatActivity {
             Toast.makeText(PersonalEntryActivity.this, "連絡先2が入力されてません", Toast.LENGTH_SHORT).show();
         } else if (contactInfoEdit.getText().toString().equals(contactInfoEdit2.getText().toString())) {
             Toast.makeText(PersonalEntryActivity.this, "連絡先2には連絡先1とは別の連絡先を入力してください", Toast.LENGTH_SHORT).show();
-        } else if (latitude == null) {
+        } else if (strLatitude == null) {
             Toast.makeText(PersonalEntryActivity.this, "現在位置を取得してください", Toast.LENGTH_SHORT).show();
         }else{
             // パーソナルデータ登録の確認ダイアログの生成
@@ -194,7 +192,13 @@ public class PersonalEntryActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // はい ボタンクリック処理
                             // propertiesに情報を登録する
+                            UseProperties useProperties = new UseProperties(getApplicationContext());
 
+                            String numPeople = numPeopleEdit.getText().toString();
+                            String contact = contactInfoEdit.getText().toString();
+                            String contact2 = contactInfoEdit2.getText().toString();
+
+                            useProperties.entryProperties(getApplicationContext(), numPeople, contact, contact2, strLatitude,strLongitude);
 
                             // TODO: サーバー側で位置情報などを保持している場合はサーバー側に変更した情報を通信
 
