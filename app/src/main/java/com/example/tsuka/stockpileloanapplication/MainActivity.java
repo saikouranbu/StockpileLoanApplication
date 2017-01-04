@@ -36,8 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
     // 備蓄品データ登録ボタンを押下時の挙動
     public void onStockpileEntryClick(View v) {
+        // パーソナルデータが登録されているかの確認
         if (!isPersonalDataEmpty()) return;
-        Toast.makeText(this, "登録済み", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "登録済み", Toast.LENGTH_SHORT).show();
+        // 備蓄品データ登録アクティビティに遷移
+        Intent intent = new Intent(this.getBaseContext(), StockpileEntryActivity.class);
+        startActivity(intent);
     }
 
     // パーミッションの許可を求めるダイアログ選択時に呼び出される

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Properties;
 
 public class UseProperties {
@@ -64,7 +63,7 @@ public class UseProperties {
         }catch (FileNotFoundException e){
             Log.d("error", "ファイルにアクセスできていない");
         }catch (IOException e){
-            Log.d("erroe", "ファイルに書き込めていない");
+            Log.d("error", "ファイルに書き込めていない");
         }
     }
 

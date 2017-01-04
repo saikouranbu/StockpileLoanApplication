@@ -14,4 +14,8 @@
     <string name="conf_location">位置情報を確認</string>
     <string name="entry">登録</string>
     <string name="title_activity_maps">Map</string>
+    <string name="stockpile_name">備蓄品名</string>
+    <string name="stockpile_req_num">必要数</string>
+    <string name="stockpile_num">備蓄個数</string>
+    <string name="stockpile_num_unit">単位</string>
 </resources>
