@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="10">
+
+    <EditText
+        android:id="@+id/stockpileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:ems="10"
+        android:inputType="text|textPersonName" />
+
+    <EditText
+        android:id="@+id/stockpileReqNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="2"
+        android:inputType="textPersonName|number" />
+
+    <EditText
+        android:id="@+id/stockpileNumUnitEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="2"
+        android:inputType="text|textPersonName" />
+
+    <EditText
+        android:id="@+id/stockpileNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="2"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/stockpileNumUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="2"
+        android:textSize="14sp" />
+</LinearLayout>

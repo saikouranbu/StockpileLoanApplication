@@ -10,62 +10,75 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.tsuka.stockpileloanapplication.StockpileEntryActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
-
-        <TextView
-            android:text="@string/stockpile_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:id="@+id/stockpileEntryText" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
 
             <TextView
-                android:text="@string/stockpile_name"
-                android:layout_width="wrap_content"
+                android:text="@string/stockpile_entry"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/stockpileName"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
                 android:gravity="center"
-                android:layout_weight="6" />
-            <TextView
-                android:text="@string/stockpile_req_num"
-                android:layout_width="wrap_content"
+                android:id="@+id/stockpileEntryText" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/stockpileReqNum"
-                android:gravity="center"
-                android:layout_weight="1" />
-            <TextView
-                android:text="@string/stockpile_num_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stockpileReqNumUnit"
-                android:gravity="center"
-                android:layout_weight="1" />
-            <TextView
-                android:text="@string/stockpile_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stockpileNum"
-                android:gravity="center"
-                android:layout_weight="1" />
-            <TextView
-                android:text="@string/stockpile_num_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stockpileNumUnit"
-                android:gravity="center"
-                android:layout_weight="1" />
+                android:weightSum="10">
+
+                <TextView
+                    android:text="@string/stockpile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stockpileName"
+                    android:gravity="center"
+                    android:layout_weight="6" />
+                <TextView
+                    android:text="@string/stockpile_req_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stockpileReqNum"
+                    android:gravity="center"
+                    android:layout_weight="1" />
+                <TextView
+                    android:text="@string/stockpile_num_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stockpileReqNumUnit"
+                    android:gravity="center"
+                    android:layout_weight="1" />
+                <TextView
+                    android:text="@string/stockpile_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stockpileNum"
+                    android:gravity="center"
+                    android:layout_weight="1" />
+                <TextView
+                    android:text="@string/stockpile_num_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stockpileNumUnit"
+                    android:gravity="center"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/stockpileDataList" />
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
+
+
 </RelativeLayout>
