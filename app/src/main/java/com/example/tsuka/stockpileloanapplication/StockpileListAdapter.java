@@ -40,13 +40,53 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
             viewHolder = (ViewHolder) contentView.getTag();
         }
 
-        StockpileData data = getItem(position);
+        final StockpileData data = getItem(position);
 
-        viewHolder.stockpileName.setText(data.stockpileName);
-        viewHolder.stockpileReqNum.setText(data.stockpileReqNum);
-        viewHolder.stockpileNumUnitEdit.setText(data.stockpileNumUnit);
-        viewHolder.stockpileNum.setText(data.stockpileNum);
-        viewHolder.stockpileNumUnit.setText(data.stockpileNumUnit);
+        // Listenerから参照するためにfinal修飾子のViewHolderにコピー
+        final ViewHolder finalViewHolder = viewHolder;
+
+        viewHolder.stockpileName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // フォーカスが外れた場合dataを更新する
+                    data.setStockpileName(finalViewHolder.stockpileName.getText().toString());
+                }
+            }
+        });
+        viewHolder.stockpileReqNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // フォーカスが外れた場合dataを更新する
+                    data.setStockpileReqNum(finalViewHolder.stockpileReqNum.getText().toString());
+                }
+            }
+        });
+        viewHolder.stockpileNumUnitEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // フォーカスが外れた場合dataを更新する
+                    data.setStockpileNumUnit(finalViewHolder.stockpileNumUnitEdit.getText().toString());
+                }
+            }
+        });
+        viewHolder.stockpileNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // フォーカスが外れた場合dataを更新する
+                    data.setStockpileNum(finalViewHolder.stockpileNum.getText().toString());
+                }
+            }
+        });
+
+        viewHolder.stockpileName.setText(data.getStockpileName());
+        viewHolder.stockpileReqNum.setText(data.getStockpileReqNum());
+        viewHolder.stockpileNumUnitEdit.setText(data.getStockpileNumUnit());
+        viewHolder.stockpileNum.setText(data.getStockpileNum());
+        viewHolder.stockpileNumUnit.setText(data.getStockpileNumUnit());
 
         return contentView;
     }

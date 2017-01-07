@@ -34,8 +34,9 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".StockpileEntryActivity"
-            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".StockpileEntryActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
