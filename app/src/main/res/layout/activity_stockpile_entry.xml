@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context="com.example.tsuka.stockpileloanapplication.StockpileEntryActivity"
+    tools:context="com.example.tsuka.stockpileloanapplication.activities.StockpileEntryActivity"
     android:onClick="onClickFocus">
 
 
@@ -108,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:onClick="onStockpileEntryClick"
                 android:id="@+id/stockpileEntryButton" />
 
         </LinearLayout>

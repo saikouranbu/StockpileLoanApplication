@@ -1,6 +1,6 @@
-package com.example.tsuka.stockpileloanapplication;
+package com.example.tsuka.stockpileloanapplication.utils;
 
-public class StockpileData extends Object{
+public class StockpileData{
     private String stockpileName;
     private String stockpileReqNum;
     private String stockpileNumUnit;
@@ -50,6 +50,17 @@ public class StockpileData extends Object{
         this.stockpileReqNum = stockpileReqNum;
         this.stockpileNumUnit = stockpileNumUnit;
         this.stockpileNum = stockpileNum;
+    }
+
+    // 備蓄品データがすべて入力済みかどうかの確認
+    // 入力済みならtrue
+    public boolean isCompletedStockpileData() {
+        if (stockpileName.length() != 0 &&
+                stockpileReqNum.length() != 0 &&
+                stockpileNumUnit.length() != 0 &&
+                stockpileNum.length() != 0)
+            return true;
+        else return false;
     }
 
     public String toString(){

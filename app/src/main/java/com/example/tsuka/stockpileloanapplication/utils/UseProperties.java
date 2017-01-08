@@ -1,4 +1,4 @@
-package com.example.tsuka.stockpileloanapplication;
+package com.example.tsuka.stockpileloanapplication.utils;
 
 import android.content.Context;
 import android.util.Log;
