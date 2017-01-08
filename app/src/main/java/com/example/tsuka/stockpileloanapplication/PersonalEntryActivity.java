@@ -54,7 +54,16 @@ public class PersonalEntryActivity extends AppCompatActivity {
         contactInfoEdit2.setOnFocusChangeListener(focusChangeListener);
 
         // 既に情報が登録されていた場合情報をEditTextに表示
-        // TODO: 登録済みの情報を表示
+        UseProperties useProperties = new UseProperties(getApplicationContext());
+        useProperties.logProperties();
+        if (useProperties.isEmpty()) {
+            numPeopleEdit.setText(String.valueOf(useProperties.getNumPeople()));
+            contactInfoEdit.setText(useProperties.getContactInfo());
+            contactInfoEdit2.setText(useProperties.getContactInfo2());
+            strLatitude = String.valueOf(useProperties.getLatitude());
+            strLongitude = String.valueOf(useProperties.getLongitude());
+        }
+        useProperties = null;
     }
 
     // 位置情報を取得ボタンを押下時の挙動
@@ -202,6 +211,7 @@ public class PersonalEntryActivity extends AppCompatActivity {
 
                             // TODO: サーバー側で位置情報などを保持している場合はサーバー側に変更した情報を通信
 
+                            useProperties = null;
                             // MainActivityに戻る
                             finish();
                         }

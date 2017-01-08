@@ -77,6 +77,8 @@
                 android:id="@+id/stockpileDataList"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:divider="@color/colorBackground"
+                android:dividerHeight="5px"
                 android:background="@color/listBackground" />
 
             <LinearLayout
