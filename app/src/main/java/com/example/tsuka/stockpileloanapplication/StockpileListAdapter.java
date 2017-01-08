@@ -1,6 +1,7 @@
 package com.example.tsuka.stockpileloanapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class StockpileListAdapter extends ArrayAdapter<StockpileData> {

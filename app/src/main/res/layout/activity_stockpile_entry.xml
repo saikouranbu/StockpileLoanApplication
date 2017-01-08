@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context="com.example.tsuka.stockpileloanapplication.StockpileEntryActivity">
+    tools:context="com.example.tsuka.stockpileloanapplication.StockpileEntryActivity"
+    android:onClick="onClickFocus">
 
 
         <LinearLayout
@@ -78,13 +79,35 @@
                 android:layout_weight="1"
                 android:background="@color/listBackground" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/stockpileAddButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onStockpileAddClick"
+                    android:text="@string/stockpile_add"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:text="@string/stockpile_remove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onStockpileRemoveClick"
+                    android:id="@+id/stockpileDeleteButton"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
             <Button
-                android:id="@+id/stockpileAddButton"
+                android:text="@string/entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="onStockpileAddClick"
-                android:text="@string/stockpile_add" />
+                android:layout_gravity="center"
+                android:id="@+id/stockpileEntryButton" />
+
         </LinearLayout>
 
 
