@@ -4,8 +4,6 @@
     <string name="stockpile_entry">備蓄品データ登録</string>
     <string name="stockpile_map">備蓄品マップ</string>
     <string name="map_open_switch_text">備蓄品マップを利用する</string>
-    <string name="num_people">世帯人数</string>
-    <string name="peoples">人</string>
     <string name="contact_info">連絡先1</string>
     <string name="contact_info_edit_hint">災害時に表示する連絡先</string>
     <string name="contact_info_2">連絡先2</string>

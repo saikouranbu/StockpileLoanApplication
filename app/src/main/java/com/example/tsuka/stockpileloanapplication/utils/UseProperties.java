@@ -46,12 +46,10 @@ public class UseProperties {
     }
 
     // パーソナルデータをプロパティファイルに登録
-    public void entryProperties(Context context, String numPeople, String contact, String contact2, String lat, String lng) {
-        String strNumPeople = String.valueOf(numPeople);
+    public void entryProperties(Context context, String contact, String contact2, String lat, String lng) {
         String strLat = String.valueOf(lat);
         String strLng = String.valueOf(lng);
 
-        properties.setProperty(NUM_PEOPLE, strNumPeople);
         properties.setProperty(CONTACT_1, contact);
         properties.setProperty(CONTACT_2, contact2);
         properties.setProperty(LATITUDE, strLat);
@@ -68,10 +66,6 @@ public class UseProperties {
     }
 
     // プロパティファイルからパーソナルデータを取得
-    public int getNumPeople() {
-        return Integer.parseInt(properties.getProperty(NUM_PEOPLE));
-    }
-
     public String getContactInfo() {
         return properties.getProperty(CONTACT_1);
     }
@@ -89,7 +83,6 @@ public class UseProperties {
     }
 
     public void logProperties(){
-        Log.d("num", String.valueOf(getNumPeople()));
         Log.d("contact", getContactInfo());
         Log.d("contact2", getContactInfo2());
         Log.d("latitude", String.valueOf(getLatitude()));

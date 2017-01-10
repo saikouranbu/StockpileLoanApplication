@@ -27,7 +27,7 @@ public class PersonalEntryModel {
 
     private RelativeLayout back;
 
-    private EditText numPeopleEdit, contactInfoEdit, contactInfoEdit2;
+    private EditText contactInfoEdit, contactInfoEdit2;
 
     private String strLatitude, strLongitude;
 
@@ -36,14 +36,12 @@ public class PersonalEntryModel {
 
         back = (RelativeLayout) activity.findViewById(R.id.activity_personal_entry);
 
-        numPeopleEdit = (EditText) activity.findViewById(R.id.numPeopleEdit);
         contactInfoEdit = (EditText) activity.findViewById(R.id.contactInfoEdit);
         contactInfoEdit2 = (EditText) activity.findViewById(R.id.contactInfoEdit2);
 
         // 既に情報が登録されていた場合情報をEditTextに表示
         UseProperties useProperties = new UseProperties(activity.getApplicationContext());
         if (useProperties.isEmpty()) {
-            numPeopleEdit.setText(String.valueOf(useProperties.getNumPeople()));
             contactInfoEdit.setText(useProperties.getContactInfo());
             contactInfoEdit2.setText(useProperties.getContactInfo2());
             strLatitude = String.valueOf(useProperties.getLatitude());
@@ -167,9 +165,7 @@ public class PersonalEntryModel {
     // 登録ボタンを押下時の挙動
     public void locationEntry() {
         // 登録が可能な状態かどうかの確認
-        if (numPeopleEdit.getText().length() == 0) {
-            Toast.makeText(activity, "世帯人数が入力されてません", Toast.LENGTH_SHORT).show();
-        } else if (contactInfoEdit.getText().length() == 0) {
+        if (contactInfoEdit.getText().length() == 0) {
             Toast.makeText(activity, "連絡先1が入力されてません", Toast.LENGTH_SHORT).show();
         } else if (contactInfoEdit2.getText().length() == 0) {
             Toast.makeText(activity, "連絡先2が入力されてません", Toast.LENGTH_SHORT).show();
@@ -190,11 +186,10 @@ public class PersonalEntryModel {
                             // propertiesに情報を登録する
                             UseProperties useProperties = new UseProperties(activity.getApplicationContext());
 
-                            String numPeople = numPeopleEdit.getText().toString();
                             String contact = contactInfoEdit.getText().toString();
                             String contact2 = contactInfoEdit2.getText().toString();
 
-                            useProperties.entryProperties(activity.getApplicationContext(), numPeople, contact, contact2, strLatitude,strLongitude);
+                            useProperties.entryProperties(activity.getApplicationContext(), contact, contact2, strLatitude,strLongitude);
 
                             // TODO: サーバー側で位置情報などを保持している場合はサーバー側に変更した情報を通信
 

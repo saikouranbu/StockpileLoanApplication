@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:maxLength="255"
         android:inputType="text|textPersonName" />
 
     <EditText
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_width="60dp"
         android:gravity="right"
+        android:maxLength="5"
         android:inputType="textPersonName|number" />
 
     <EditText
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_width="60dp"
         android:gravity="right"
+        android:maxLength="5"
         android:inputType="text|textPersonName" />
 
     <EditText
@@ -30,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_width="60dp"
         android:gravity="right"
+        android:maxLength="5"
         android:inputType="number" />
 
     <TextView

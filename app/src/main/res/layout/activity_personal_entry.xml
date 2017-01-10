@@ -37,59 +37,15 @@
             tools:layout_constraintRight_creator="1"
             tools:layout_constraintTop_creator="1" />
 
-        <TextView
-            android:id="@+id/numPeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/num_people"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/numPeopleGuideline" />
-
-        <EditText
-            android:id="@+id/numPeopleEdit"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:inputType="number"
-            android:labelFor="@+id/numPeople"
-            app:layout_constraintBaseline_toBaselineOf="@+id/numPeople"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toRightOf="@+id/numPeople"
-            app:layout_constraintRight_toLeftOf="@+id/peoples"
-            tools:ignore="LabelFor" />
-
-        <TextView
-            android:id="@+id/peoples"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="@string/peoples"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/numPeopleGuideline" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/numPeopleGuideline"
-            android:layout_width="352dp"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="98dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="98dp" />
 
         <android.support.constraint.Guideline
             android:id="@+id/contactInfoGuideline"
             android:layout_width="352dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="178dp"
+            app:layout_constraintGuide_begin="98dp"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="178dp" />
+            tools:layout_editor_absoluteY="98dp" />
 
         <TextView
             android:id="@+id/contactInfo"
@@ -111,6 +67,7 @@
             android:hint="@string/contact_info_edit_hint"
             android:inputType="text"
             android:labelFor="@+id/contactInfo"
+            android:maxLength="255"
             app:layout_constraintBaseline_toBaselineOf="@+id/contactInfo"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toRightOf="@+id/contactInfo"
@@ -122,9 +79,9 @@
             android:layout_width="352dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="252dp"
+            app:layout_constraintGuide_begin="178dp"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="252dp" />
+            tools:layout_editor_absoluteY="178dp" />
 
         <TextView
             android:id="@+id/contactInfo2"
@@ -145,6 +102,7 @@
             android:ems="10"
             android:hint="@string/contact_info_edit_hint_2"
             android:inputType="text"
+            android:maxLength="255"
             android:labelFor="@+id/contactInfo2"
             app:layout_constraintBaseline_toBaselineOf="@+id/contactInfo2"
             app:layout_constraintHorizontal_bias="1.0"
