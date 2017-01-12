@@ -7,9 +7,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
+import com.example.tsuka.stockpileloanapplication.activities.StockpileEntryActivity;
+import com.example.tsuka.stockpileloanapplication.db.StockpileTableInsert;
 import com.example.tsuka.stockpileloanapplication.utils.StockpileData;
 import com.example.tsuka.stockpileloanapplication.utils.StockpileListAdapter;
-import com.example.tsuka.stockpileloanapplication.activities.StockpileEntryActivity;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class StockpileEntryModel {
         stockpileList = new ArrayList<StockpileData>();
         stockpileListAdapter = new StockpileListAdapter(activity, stockpileList);
 
+        // TODO: データベースにデータを登録済みの場合登録済みのデータをリストに表示
         updateListView();
     }
 
@@ -54,8 +56,22 @@ public class StockpileEntryModel {
         if (!isCompletedStockpileList()) {
             Toast.makeText(activity, "備蓄品データがすべて入力されていません", Toast.LENGTH_SHORT).show();
             return;
+        }else{
+            Toast.makeText(activity, "備蓄品データの送信を開始しました", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(activity, "送信", Toast.LENGTH_SHORT).show();
+
+        StockpileTableInsert insert = new StockpileTableInsert(activity, stockpileList, 1);
+        try {
+            boolean bool = insert.execute().get();
+            if (bool == true) {
+                Toast.makeText(activity, "備蓄品データを登録しました", Toast.LENGTH_SHORT).show();
+                activity.finish();
+            } else {
+                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.d("error", e.toString());
+        }
     }
 
     // 備蓄品リスト内のデータがすべて入力済みか確認
