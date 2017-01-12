@@ -12,13 +12,16 @@ import java.util.Properties;
 public class UseProperties {
     private static final String PERSONAL_PROP = "personal.properties";
 
-    private static final String NUM_PEOPLE = "numPeople";
     private static final String CONTACT_1 = "contactInfo";
     private static final String CONTACT_2 = "contactInfo2";
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
 
     private Properties properties;
+
+    // TODO: データベース登録Booleanの追加
+    // TODO: 備蓄品データを公開Booleanの追加
+
 
     public UseProperties(Context context) {
         properties = new Properties();
@@ -28,7 +31,7 @@ public class UseProperties {
     // 既にパーソナルデータが登録されているかの判別
     public boolean isEmpty() {
         Log.d("propertySize", String.valueOf(properties.stringPropertyNames().size()));
-        if (properties.stringPropertyNames().size() != 0) {
+        if (properties.stringPropertyNames().size() > 1) {
             return true;
         } else {
             return false;
