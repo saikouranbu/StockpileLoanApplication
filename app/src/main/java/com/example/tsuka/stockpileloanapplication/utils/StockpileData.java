@@ -1,10 +1,24 @@
 package com.example.tsuka.stockpileloanapplication.utils;
 
-public class StockpileData{
+public class StockpileData {
     private String stockpileName;
     private String stockpileReqNum;
     private String stockpileNumUnit;
     private String stockpileNum;
+
+    public StockpileData() {
+        stockpileName = "";
+        stockpileReqNum = "";
+        stockpileNumUnit = "";
+        stockpileNum = "";
+    }
+
+    public StockpileData(String stockpileName, String stockpileReqNum, String stockpileNumUnit, String stockpileNum) {
+        this.stockpileName = stockpileName;
+        this.stockpileReqNum = stockpileReqNum;
+        this.stockpileNumUnit = stockpileNumUnit;
+        this.stockpileNum = stockpileNum;
+    }
 
     public String getStockpileName() {
         return stockpileName;
@@ -38,20 +52,6 @@ public class StockpileData{
         this.stockpileNum = stockpileNum;
     }
 
-    public StockpileData(){
-        stockpileName = "";
-        stockpileReqNum = "";
-        stockpileNumUnit = "";
-        stockpileNum = "";
-    }
-
-    public StockpileData(String stockpileName, String stockpileReqNum, String stockpileNumUnit, String stockpileNum){
-        this.stockpileName = stockpileName;
-        this.stockpileReqNum = stockpileReqNum;
-        this.stockpileNumUnit = stockpileNumUnit;
-        this.stockpileNum = stockpileNum;
-    }
-
     // 備蓄品データがすべて入力済みかどうかの確認
     // 入力済みならtrue
     public boolean isCompletedStockpileData() {
@@ -63,7 +63,7 @@ public class StockpileData{
         else return false;
     }
 
-    public String toString(){
+    public String toString() {
         return stockpileName;
     }
 }

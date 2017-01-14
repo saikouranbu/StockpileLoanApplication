@@ -3,7 +3,6 @@ package com.example.tsuka.stockpileloanapplication.models;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.activities.MainActivity;
@@ -40,7 +39,7 @@ public class MainModel {
     public void stockpileEntry() {
         // パーソナルデータが登録されているかの確認
         if (!isPersonalDataEmpty()) return;
-        // Toast.makeText(this, "登録済み", Toast.LENGTH_SHORT).show();
+
         // 備蓄品データ登録アクティビティに遷移
         Intent intent = new Intent(activity.getBaseContext(), StockpileEntryActivity.class);
         activity.startActivity(intent);
@@ -48,7 +47,7 @@ public class MainModel {
 
     private boolean isPersonalDataEmpty() {
         useProperties = new UseProperties(activity.getApplicationContext());
-        if (useProperties.isEmpty()) {
+        if (useProperties.isRegisteredProperties()) {
             useProperties = null;
             return true;
         } else {

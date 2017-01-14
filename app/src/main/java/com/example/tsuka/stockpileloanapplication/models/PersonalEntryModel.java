@@ -11,7 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.view.View;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.tsuka.stockpileloanapplication.R;
 import com.example.tsuka.stockpileloanapplication.activities.MapsActivity;
 import com.example.tsuka.stockpileloanapplication.activities.PersonalEntryActivity;
+import com.example.tsuka.stockpileloanapplication.db.PersonalTableInsert;
+import com.example.tsuka.stockpileloanapplication.db.PersonalTableUpdate;
 import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 public class PersonalEntryModel {
@@ -31,7 +33,9 @@ public class PersonalEntryModel {
 
     private String strLatitude, strLongitude;
 
-    public PersonalEntryModel(PersonalEntryActivity activity){
+    private static final int NULL_INT = -10000;
+
+    public PersonalEntryModel(PersonalEntryActivity activity) {
         this.activity = activity;
 
         back = (RelativeLayout) activity.findViewById(R.id.activity_personal_entry);
@@ -41,7 +45,7 @@ public class PersonalEntryModel {
 
         // 既に情報が登録されていた場合情報をEditTextに表示
         UseProperties useProperties = new UseProperties(activity.getApplicationContext());
-        if (useProperties.isEmpty()) {
+        if (useProperties.isRegisteredProperties()) {
             contactInfoEdit.setText(useProperties.getContactInfo());
             contactInfoEdit2.setText(useProperties.getContactInfo2());
             strLatitude = String.valueOf(useProperties.getLatitude());
@@ -173,11 +177,11 @@ public class PersonalEntryModel {
             Toast.makeText(activity, "連絡先2には連絡先1とは別の連絡先を入力してください", Toast.LENGTH_SHORT).show();
         } else if (strLatitude == null) {
             Toast.makeText(activity, "現在位置を取得してください", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             // パーソナルデータ登録の確認ダイアログの生成
             AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
             alertDlg.setTitle("登録の確認");
-            alertDlg.setMessage("入力された情報を登録します\nよろしいですか？");
+            alertDlg.setMessage("入力された情報を登録します\nよろしいですか？\n\n※登録に時間がかかりますので自然にダイアログが閉じるまで待機してください");
             alertDlg.setPositiveButton(
                     "はい",
                     new DialogInterface.OnClickListener() {
@@ -189,9 +193,37 @@ public class PersonalEntryModel {
                             String contact = contactInfoEdit.getText().toString();
                             String contact2 = contactInfoEdit2.getText().toString();
 
-                            useProperties.entryProperties(activity.getApplicationContext(), contact, contact2, strLatitude,strLongitude);
+                            useProperties.entryProperties(contact, contact2, strLatitude, strLongitude);
 
-                            // TODO: サーバー側で位置情報などを保持している場合はサーバー側に変更した情報を通信
+                            if(useProperties.getPersonalId() != NULL_INT){
+                                // データベースにパーソナルデータが登録済みの場合は更新
+                                PersonalTableUpdate update = new PersonalTableUpdate(useProperties);
+                                try {
+                                    boolean bool = update.execute().get();
+                                    if (bool == true) {
+                                        Toast.makeText(activity, "パーソナルデータを更新しました", Toast.LENGTH_SHORT).show();
+                                        activity.finish();
+                                    } else {
+                                        Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Log.d("error", e.toString());
+                                }
+                            }else{
+                                // データベースに未登録の場合データベースに挿入
+                                PersonalTableInsert insert = new PersonalTableInsert(useProperties);
+                                try {
+                                    boolean bool = insert.execute().get();
+                                    if (bool == true) {
+                                        Toast.makeText(activity, "パーソナルデータを登録しました", Toast.LENGTH_SHORT).show();
+                                        activity.finish();
+                                    } else {
+                                        Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Log.d("error", e.toString());
+                                }
+                            }
 
                             useProperties = null;
                             // MainActivityに戻る

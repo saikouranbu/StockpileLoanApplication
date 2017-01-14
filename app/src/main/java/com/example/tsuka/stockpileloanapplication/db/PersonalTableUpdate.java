@@ -1,24 +1,20 @@
 package com.example.tsuka.stockpileloanapplication.db;
 
+
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.tsuka.stockpileloanapplication.utils.StockpileData;
 import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-
-public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
-    private ArrayList<StockpileData> stockpileData;
+public class PersonalTableUpdate extends AsyncTask<Void, Void, Boolean> {
     private UseProperties properties;
 
-    public StockpileTableInsert(ArrayList<StockpileData> stockpileData, UseProperties properties) {
-        this.stockpileData = stockpileData;
+    public PersonalTableUpdate(UseProperties properties) {
         this.properties = properties;
     }
 
@@ -30,24 +26,22 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "insert into stockpile_tbl (personal_id, name, req_num, num_unit, num) values (?, ?, ?, ?, ?);";
+            String sql = "update personal_tbl set contact_one = ?, contact_two = ?, location = ?, longitude = ? where personal_id = ?;";
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, properties.getPersonalId()); // パーソナルテーブルのID
-            for (StockpileData data : stockpileData) {
-                preparedStatement.setString(2, data.getStockpileName()); // 備蓄品名
-                preparedStatement.setInt(3, Integer.valueOf(data.getStockpileReqNum())); // 備蓄必要数
-                preparedStatement.setString(4, data.getStockpileNumUnit()); // 備蓄品の単位
-                preparedStatement.setInt(5, Integer.valueOf(data.getStockpileNum())); // 備蓄数
+            preparedStatement.setString(1, properties.getContactInfo()); // 連絡先1
+            preparedStatement.setString(2, properties.getContactInfo2()); // 連絡先2
+            preparedStatement.setDouble(3, properties.getLatitude()); // 緯度
+            preparedStatement.setDouble(4, properties.getLongitude()); // 経度
 
-                preparedStatement.executeUpdate(); // データベースに挿入
-            }
+            preparedStatement.setInt(5, properties.getPersonalId()); // パーソナルID
+
+            preparedStatement.executeUpdate(); // データベースに挿入
 
             preparedStatement.close();
             connection.close();
 
             bool = true;
-            properties.setRegistered(true); // プロパティファイルに備蓄品データを登録済みであることを保存
         } catch (Exception e) {
             e.printStackTrace();
             bool = false;
@@ -62,3 +56,4 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
         return bool;
     }
 }
+
