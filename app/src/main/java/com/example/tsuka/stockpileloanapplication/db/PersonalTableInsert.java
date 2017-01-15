@@ -20,13 +20,13 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        Boolean bool = false;
+        Boolean isSuccess = false;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "insert into personal_tbl (contact_one, contact_two, location, longitude) values (?, ?, ?, ?);";
+            String sql = "insert into personal_tbl (contact_one, contact_two, location, longitude) values (?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, properties.getContactInfo()); // 連絡先1
@@ -60,9 +60,9 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.close();
             connection.close();
 
-            bool = true;
+            isSuccess = true;
         } catch (Exception e) {
-            bool = false;
+            isSuccess = false;
             e.printStackTrace();
         } finally {
             try {
@@ -72,6 +72,6 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
                 Log.d("error", "データベースに接続できていない");
             }
         }
-        return bool;
+        return isSuccess;
     }
 }

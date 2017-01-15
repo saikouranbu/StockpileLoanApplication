@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
 import com.example.tsuka.stockpileloanapplication.activities.StockpileEntryActivity;
+import com.example.tsuka.stockpileloanapplication.db.StockpileTableDelete;
 import com.example.tsuka.stockpileloanapplication.db.StockpileTableGet;
 import com.example.tsuka.stockpileloanapplication.db.StockpileTableInsert;
 import com.example.tsuka.stockpileloanapplication.utils.StockpileData;
@@ -81,11 +82,23 @@ public class StockpileEntryModel {
             Toast.makeText(activity, "備蓄品データの送信を開始しました", Toast.LENGTH_SHORT).show();
         }
 
-        // UseProperties useProperties = new UseProperties(activity.getApplicationContext());
+        // 備蓄品データをデータベースに登録済みの場合既存のデータを削除する
+        boolean isSuccess = false;
+        // データベースにデータが登録済みの場合
+        if (useProperties.isStockpileRegistered()) {
+            StockpileTableDelete delete = new StockpileTableDelete(useProperties);
+            try {
+                isSuccess = delete.execute().get();
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+        }
+        Log.d("dataDelete", String.valueOf(isSuccess));
+        // 備蓄品データをデータベースに挿入
         StockpileTableInsert insert = new StockpileTableInsert(stockpileList, useProperties);
         try {
-            boolean bool = insert.execute().get();
-            if (bool == true) {
+            isSuccess = insert.execute().get();
+            if (isSuccess == true) {
                 Toast.makeText(activity, "備蓄品データを登録しました", Toast.LENGTH_SHORT).show();
                 activity.finish();
             } else {

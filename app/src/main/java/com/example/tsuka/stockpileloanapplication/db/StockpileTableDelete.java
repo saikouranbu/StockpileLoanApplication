@@ -1,24 +1,20 @@
 package com.example.tsuka.stockpileloanapplication.db;
 
+
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.tsuka.stockpileloanapplication.utils.StockpileData;
 import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-
-public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
-    private ArrayList<StockpileData> stockpileData;
+public class StockpileTableDelete extends AsyncTask<Void, Void, Boolean> {
     private UseProperties properties;
 
-    public StockpileTableInsert(ArrayList<StockpileData> stockpileData, UseProperties properties) {
-        this.stockpileData = stockpileData;
+    public StockpileTableDelete(UseProperties properties) {
         this.properties = properties;
     }
 
@@ -30,27 +26,21 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "insert into stockpile_tbl (personal_id, name, req_num, num_unit, num) values (?, ?, ?, ?, ?)";
+            String sql = "delete from stockpile_tbl where personal_id = ?;";
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, properties.getPersonalId()); // パーソナルテーブルのID
-            for (StockpileData data : stockpileData) {
-                preparedStatement.setString(2, data.getStockpileName()); // 備蓄品名
-                preparedStatement.setInt(3, Integer.valueOf(data.getStockpileReqNum())); // 備蓄必要数
-                preparedStatement.setString(4, data.getStockpileNumUnit()); // 備蓄品の単位
-                preparedStatement.setInt(5, Integer.valueOf(data.getStockpileNum())); // 備蓄数
+            preparedStatement.setInt(1, properties.getPersonalId()); // パーソナルID
 
-                preparedStatement.executeUpdate(); // データベースに挿入
-            }
+            preparedStatement.executeUpdate();
 
             preparedStatement.close();
             connection.close();
 
             isSuccess = true;
-            properties.setRegistered(true); // プロパティファイルに備蓄品データを登録済みであることを保存
+            properties.setRegistered(false); // プロパティファイルに備蓄品データを未登録であることを保存
         } catch (Exception e) {
-            e.printStackTrace();
             isSuccess = false;
+            e.printStackTrace();
         } finally {
             try {
                 if (connection != null) connection.close();
