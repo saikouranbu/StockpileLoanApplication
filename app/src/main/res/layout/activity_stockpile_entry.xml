@@ -79,14 +79,21 @@
                 android:layout_weight="1"
                 android:divider="@color/colorBackground"
                 android:dividerHeight="5px"
-                android:background="@color/listBackground" />
+                android:background="@color/listBackground"
+                tools:ignore="PxUsage" />
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
                     android:id="@+id/stockpileAddButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,17 +106,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onStockpileRemoveClick"
-                    android:id="@+id/stockpileDeleteButton"
+                    android:id="@+id/stockpileRemoveButton"
                     android:layout_weight="1" />
-            </LinearLayout>
 
-            <Button
-                android:text="@string/entry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="onStockpileEntryClick"
-                android:id="@+id/stockpileEntryButton" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/stockpileEntryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:onClick="onStockpileEntryClick"
+                    android:text="@string/entry" />
+
+                <Button
+                    android:id="@+id/stockpileDeleteButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:onClick="onStockpileDeleteClick"
+                    android:text="@string/stockpile_delete"
+                    android:textColor="@color/colorDelete" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -39,6 +39,11 @@ public class StockpileEntryActivity extends AppCompatActivity {
         model.stockpileEntry();
     }
 
+    // 備蓄品データをデータベースに登録済みの場合既存のデータを削除する
+    public void onStockpileDeleteClick(View v) {
+        model.stockpileDelete();
+    }
+
     // 背景をタップしたときにキーボードを閉じる
     public void onClickFocus(View v) {
         model.clickFocus();

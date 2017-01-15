@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#ffedaf</color>
     <color name="listBackground">#ff9500</color>
+    <color name="colorDelete">#ff2f05</color>
 </resources>

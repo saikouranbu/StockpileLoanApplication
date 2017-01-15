@@ -18,4 +18,5 @@
     <string name="stockpile_num_unit">単位</string>
     <string name="stockpile_add">備蓄品データ追加</string>
     <string name="stockpile_remove">備蓄品データ削除</string>
+    <string name="stockpile_delete">全削除</string>
 </resources>

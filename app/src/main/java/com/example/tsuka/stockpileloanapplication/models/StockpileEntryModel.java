@@ -1,6 +1,8 @@
 package com.example.tsuka.stockpileloanapplication.models;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -126,6 +128,50 @@ public class StockpileEntryModel {
         }
     }
 
+    // 備蓄品データをデータベースに登録済みの場合既存のデータを削除する
+    public void stockpileDelete() {
+        // データベースにデータが登録済みの場合
+        if (useProperties.isStockpileRegistered()) {
+            AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
+            alertDlg.setTitle("削除の確認");
+            alertDlg.setMessage("データベースに登録済みの備蓄品データを削除します\nよろしいですか？");
+            alertDlg.setPositiveButton(
+                    "はい",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // はい ボタンクリック処理
+                            boolean isSuccess = false;
+                            StockpileTableDelete delete = new StockpileTableDelete(useProperties);
+                            try {
+                                isSuccess = delete.execute().get();
+                            } catch (Exception e) {
+                                Log.d("error", "削除失敗");
+                            }
+
+                            if (isSuccess) {
+                                Toast.makeText(activity, "データベースに登録済みの備蓄品データを削除しました", Toast.LENGTH_SHORT).show();
+                                // MainActivityに戻る
+                                activity.finish();
+                            } else {
+                                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+            alertDlg.setNegativeButton(
+                    "いいえ",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // いいえ ボタンクリック処理
+                        }
+                    });
+
+            // 表示
+            alertDlg.create().show();
+        } else {
+            Toast.makeText(activity, "データベースに備蓄品データが未登録です", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     // 備蓄品リスト内のデータがすべて入力済みか確認
     // 入力済みならtrue
     // データ数が0の場合と入力されてないデータがあればfalse
@@ -146,8 +192,6 @@ public class StockpileEntryModel {
         back.requestFocus();
         updateListView();
     }
-
-    // TODO: 備蓄品データ全削除ボタン
 
     // リストを更新する
     public void updateListView() {
