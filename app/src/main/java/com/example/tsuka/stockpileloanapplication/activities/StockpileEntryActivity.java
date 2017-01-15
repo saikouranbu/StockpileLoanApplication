@@ -17,6 +17,13 @@ public class StockpileEntryActivity extends AppCompatActivity {
         model = new StockpileEntryModel(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        model.onStart();
+    }
+
     // 備蓄品データの空をリストに追加する
     public void onStockpileAddClick(View v) {
         model.stockpileAdd();

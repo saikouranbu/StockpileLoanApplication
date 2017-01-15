@@ -1,5 +1,6 @@
 package com.example.tsuka.stockpileloanapplication.models;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -22,22 +23,38 @@ public class StockpileEntryModel {
     private RelativeLayout back;
     private ArrayList<StockpileData> stockpileList;
     private StockpileListAdapter stockpileListAdapter;
-    UseProperties useProperties;
+    private UseProperties useProperties;
+
+    private ProgressDialog dialog;
 
     public StockpileEntryModel(StockpileEntryActivity activity) {
         this.activity = activity;
 
+
+        // データベースに接続するまでのLoadingDialogを表示
+        dialog = new ProgressDialog(activity);
+        dialog.setTitle("Please wait");
+        dialog.setMessage("Loading...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
+    }
+
+    public void onStart(){
         stockpileListView = (ListView) activity.findViewById(R.id.stockpileDataList);
         back = (RelativeLayout) activity.findViewById(R.id.activity_stockpile_entry);
 
         stockpileList = new ArrayList<StockpileData>();
 
         useProperties = new UseProperties(activity.getApplicationContext());
+
         // データベースにデータが登録済みの場合データを取得
         if(useProperties.isStockpileRegistered()) stockpileGetList();
 
         stockpileListAdapter = new StockpileListAdapter(activity, stockpileList);
         updateListView();
+
+        // LoadingDialogを閉じる
+        dialog.dismiss();
     }
 
     // データベースに登録済みの備蓄品データをリストに追加
