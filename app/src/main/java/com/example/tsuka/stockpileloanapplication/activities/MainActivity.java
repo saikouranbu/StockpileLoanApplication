@@ -1,6 +1,5 @@
 package com.example.tsuka.stockpileloanapplication.activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -50,5 +49,10 @@ public class MainActivity extends AppCompatActivity {
     // 備蓄品データ登録ボタンを押下時の挙動
     public void onStockpileEntryClick(View v) {
         model.stockpileEntry();
+    }
+
+    // 備蓄品データ公開スイッチを押下時の挙動
+    public void onOpenSwitchClick(View v) {
+        model.checkedSwitch();
     }
 }

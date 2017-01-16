@@ -199,8 +199,8 @@ public class PersonalEntryModel {
                                 // データベースにパーソナルデータが登録済みの場合は更新
                                 PersonalTableUpdate update = new PersonalTableUpdate(useProperties);
                                 try {
-                                    boolean bool = update.execute().get();
-                                    if (bool == true) {
+                                    boolean isSuccess = update.execute().get();
+                                    if (isSuccess == true) {
                                         Toast.makeText(activity, "パーソナルデータを更新しました", Toast.LENGTH_SHORT).show();
                                         activity.finish();
                                     } else {
@@ -213,8 +213,8 @@ public class PersonalEntryModel {
                                 // データベースに未登録の場合データベースに挿入
                                 PersonalTableInsert insert = new PersonalTableInsert(useProperties);
                                 try {
-                                    boolean bool = insert.execute().get();
-                                    if (bool == true) {
+                                    boolean isSuccess = insert.execute().get();
+                                    if (isSuccess == true) {
                                         Toast.makeText(activity, "パーソナルデータを登録しました", Toast.LENGTH_SHORT).show();
                                         activity.finish();
                                     } else {
