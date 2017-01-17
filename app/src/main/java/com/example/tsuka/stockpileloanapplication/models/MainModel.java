@@ -173,7 +173,5 @@ public class MainModel {
                 alertDlg.create().show();
             }
         }
-
-
     }
 }

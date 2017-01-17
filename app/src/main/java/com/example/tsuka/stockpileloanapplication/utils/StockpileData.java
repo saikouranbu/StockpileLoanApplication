@@ -63,6 +63,18 @@ public class StockpileData {
         else return false;
     }
 
+    // 備蓄品データの個数が必要数を上回っているかどうかの確認
+    // 上回っているならtrue
+    public boolean isOverReqNum() {
+        int reqNum = Integer.parseInt(getStockpileReqNum());
+        int num = Integer.parseInt(getStockpileNum());
+        if (num > reqNum) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String toString() {
         return stockpileName;
     }
