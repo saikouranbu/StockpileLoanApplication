@@ -41,7 +41,7 @@ public class StockpileMapsActivity extends FragmentActivity implements OnMapRead
         mMap = googleMap;
 
         // マップに現在位置のマーカーを表示し視点を現在位置に移動
-        mMap.addMarker(new MarkerOptions().position(latLng).title("検索ワード\n" + stockpileName));
+        mMap.addMarker(new MarkerOptions().position(latLng).title("検索ワード").snippet(stockpileName+"\n\n"+stockpileName));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         latLng = null;

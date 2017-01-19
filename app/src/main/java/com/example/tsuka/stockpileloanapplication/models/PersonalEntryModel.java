@@ -137,9 +137,9 @@ public class PersonalEntryModel {
             Toast.makeText(activity, "現在位置の取得が完了していません", Toast.LENGTH_SHORT).show();
         } else {
             // パーソナルデータ登録の確認ダイアログの生成
-            AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
+            final AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
             alertDlg.setTitle("登録の確認");
-            alertDlg.setMessage("入力された情報を登録します\nよろしいですか？\n\n※登録に時間がかかりますので自然にダイアログが閉じるまで待機してください");
+            alertDlg.setMessage("入力された情報を登録します\nよろしいですか？");
             alertDlg.setPositiveButton(
                     "はい",
                     new DialogInterface.OnClickListener() {
@@ -162,13 +162,7 @@ public class PersonalEntryModel {
                                 // データベースにパーソナルデータが登録済みの場合は更新
                                 PersonalTableUpdate update = new PersonalTableUpdate(useProperties);
                                 try {
-                                    boolean isSuccess = update.execute().get();
-                                    if (isSuccess == true) {
-                                        Toast.makeText(activity, "パーソナルデータを更新しました", Toast.LENGTH_SHORT).show();
-                                        activity.finish();
-                                    } else {
-                                        Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
-                                    }
+                                    update.execute();
                                 } catch (Exception e) {
                                     Log.d("error", e.toString());
                                 }
@@ -176,13 +170,7 @@ public class PersonalEntryModel {
                                 // データベースに未登録の場合データベースに挿入
                                 PersonalTableInsert insert = new PersonalTableInsert(useProperties);
                                 try {
-                                    boolean isSuccess = insert.execute().get();
-                                    if (isSuccess == true) {
-                                        Toast.makeText(activity, "パーソナルデータを登録しました", Toast.LENGTH_SHORT).show();
-                                        activity.finish();
-                                    } else {
-                                        Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
-                                    }
+                                    insert.execute();
                                 } catch (Exception e) {
                                     Log.d("error", e.toString());
                                 }

@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class StockpileTableDelete extends AsyncTask<Void, Void, Boolean> {
+public class StockpileTableDelete extends AsyncTask<Void, Void, Void> {
     private UseProperties properties;
 
     public StockpileTableDelete(UseProperties properties) {
@@ -19,8 +19,7 @@ public class StockpileTableDelete extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
-        Boolean isSuccess = false;
+    protected Void doInBackground(Void... params) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -36,11 +35,12 @@ public class StockpileTableDelete extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.close();
             connection.close();
 
-            isSuccess = true;
             properties.setRegistered(false); // プロパティファイルに備蓄品データを未登録であることを保存
+
+            Log.d("delete", "Completed");
         } catch (Exception e) {
-            isSuccess = false;
             e.printStackTrace();
+            Log.d("delete", "Failed");
         } finally {
             try {
                 if (connection != null) connection.close();
@@ -49,6 +49,6 @@ public class StockpileTableDelete extends AsyncTask<Void, Void, Boolean> {
                 Log.d("error", "データベースに接続できていない");
             }
         }
-        return isSuccess;
+        return null;
     }
 }

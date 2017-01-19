@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class PersonalTableOpenChange extends AsyncTask<Void, Void, Boolean> {
+public class PersonalTableOpenChange extends AsyncTask<Void, Void, Void> {
     private UseProperties properties;
 
     public PersonalTableOpenChange(UseProperties properties){
@@ -19,8 +19,7 @@ public class PersonalTableOpenChange extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
-        Boolean isSuccess = false;
+    protected Void doInBackground(Void... params) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -38,10 +37,10 @@ public class PersonalTableOpenChange extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.close();
             connection.close();
 
-            isSuccess = true;
+            Log.d("change", "Completed");
         } catch (Exception e) {
             e.printStackTrace();
-            isSuccess = false;
+            Log.d("change", "Failed");
         } finally {
             try {
                 if (connection != null) connection.close();
@@ -50,6 +49,6 @@ public class PersonalTableOpenChange extends AsyncTask<Void, Void, Boolean> {
                 Log.d("error", "データベースに接続できていない");
             }
         }
-        return isSuccess;
+        return null;
     }
 }

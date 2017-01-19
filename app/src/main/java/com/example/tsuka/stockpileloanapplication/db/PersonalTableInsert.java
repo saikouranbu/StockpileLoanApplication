@@ -1,7 +1,9 @@
 package com.example.tsuka.stockpileloanapplication.db;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
@@ -11,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
+public class PersonalTableInsert  extends AsyncTask<Void, Void, Void> {
     private UseProperties properties;
 
     public PersonalTableInsert(UseProperties properties) {
@@ -19,8 +21,7 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
-        Boolean isSuccess = false;
+    protected Void doInBackground(Void... params) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -59,11 +60,10 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
 
             preparedStatement.close();
             connection.close();
-
-            isSuccess = true;
+            Log.d("insert", "Completed");
         } catch (Exception e) {
-            isSuccess = false;
             e.printStackTrace();
+            Log.d("insert", "Failed");
         } finally {
             try {
                 if (connection != null) connection.close();
@@ -72,6 +72,6 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Boolean> {
                 Log.d("error", "データベースに接続できていない");
             }
         }
-        return isSuccess;
+        return null;
     }
 }

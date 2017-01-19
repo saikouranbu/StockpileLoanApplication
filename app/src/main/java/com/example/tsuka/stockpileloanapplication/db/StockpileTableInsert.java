@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
+public class StockpileTableInsert extends AsyncTask<Void, Void, Void> {
     private ArrayList<StockpileData> stockpileData;
     private UseProperties properties;
 
@@ -23,7 +23,7 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    protected Void doInBackground(Void... params) {
         Boolean isSuccess = false;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -46,11 +46,12 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.close();
             connection.close();
 
-            isSuccess = true;
             properties.setRegistered(true); // プロパティファイルに備蓄品データを登録済みであることを保存
+
+            Log.d("insert", "Completed");
         } catch (Exception e) {
             e.printStackTrace();
-            isSuccess = false;
+            Log.d("insert", "Failed");
         } finally {
             try {
                 if (connection != null) connection.close();
@@ -59,6 +60,6 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Boolean> {
                 Log.d("error", "データベースに接続できていない");
             }
         }
-        return isSuccess;
+        return null;
     }
 }

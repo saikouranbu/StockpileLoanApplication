@@ -123,16 +123,13 @@ public class MainModel {
                                 // データベースに送信
                                 PersonalTableOpenChange change = new PersonalTableOpenChange(useProperties);
                                 try {
-                                    boolean isSuccess = change.execute().get();
-                                    if (isSuccess == true) {
-                                        Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
-                                        // スイッチを元に戻す
-                                        openSwitch.toggle();
-                                    }
+                                    change.execute();
+                                    Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
                                     Log.d("error", e.toString());
+                                    Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                                    // スイッチを元に戻す
+                                    openSwitch.toggle();
                                 }
                             }
                         });
@@ -168,16 +165,13 @@ public class MainModel {
                                 // データベースに送信
                                 PersonalTableOpenChange change = new PersonalTableOpenChange(useProperties);
                                 try {
-                                    boolean isSuccess = change.execute().get();
-                                    if (isSuccess == true) {
-                                        Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
-                                        // スイッチを元に戻す
-                                        openSwitch.toggle();
-                                    }
+                                    change.execute();
+                                    Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
                                     Log.d("error", e.toString());
+                                    Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                                    // スイッチを元に戻す
+                                    openSwitch.toggle();
                                 }
                             }
                         });

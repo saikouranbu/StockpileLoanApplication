@@ -32,13 +32,6 @@ public class StockpileEntryModel {
     public StockpileEntryModel(StockpileEntryActivity activity) {
         this.activity = activity;
 
-
-        // データベースに接続するまでのLoadingDialogを表示
-        dialog = new ProgressDialog(activity);
-        dialog.setTitle("Please wait");
-        dialog.setMessage("Loading...");
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.show();
     }
 
     public void onStart(){
@@ -54,22 +47,21 @@ public class StockpileEntryModel {
 
         stockpileListAdapter = new StockpileListAdapter(activity, stockpileList);
         updateListView();
-
-        // LoadingDialogを閉じる
-        dialog.dismiss();
     }
 
     // データベースに登録済みの備蓄品データをリストに追加
     private void stockpileGetList(){
-        StockpileTableGet tableGet = new StockpileTableGet(useProperties);
+        StockpileTableGet tableGet = new StockpileTableGet(useProperties, this);
 
         try {
-            stockpileList = tableGet.execute().get();
-            if (stockpileList.size() != 0) {
-                Toast.makeText(activity, "登録済み備蓄品データを取得しました", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
-            }
+            tableGet.execute();
+            Toast.makeText(activity, "登録済みの備蓄品データを取得しています", Toast.LENGTH_SHORT).show();
+            // データベースに接続するまでのLoadingDialogを表示
+            dialog = new ProgressDialog(activity);
+            dialog.setTitle("Please wait");
+            dialog.setMessage("Loading...");
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.show();
         } catch (Exception e) {
             Log.d("error", e.toString());
         }
@@ -107,29 +99,29 @@ public class StockpileEntryModel {
         }
 
         // 備蓄品データをデータベースに登録済みの場合既存のデータを削除する
-        boolean isSuccess = false;
         // データベースにデータが登録済みの場合
         if (useProperties.isStockpileRegistered()) {
             StockpileTableDelete delete = new StockpileTableDelete(useProperties);
             try {
-                isSuccess = delete.execute().get();
+                delete.execute();
             } catch (Exception e) {
                 Log.d("error", e.toString());
+                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
-        Log.d("dataDelete", String.valueOf(isSuccess));
+
         // 備蓄品データをデータベースに挿入
         StockpileTableInsert insert = new StockpileTableInsert(stockpileList, useProperties);
         try {
-            isSuccess = insert.execute().get();
-            if (isSuccess == true) {
-                Toast.makeText(activity, "備蓄品データを登録しました", Toast.LENGTH_SHORT).show();
-                activity.finish();
-            } else {
-                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
-            }
+            insert.execute();
+            Toast.makeText(activity, "備蓄品データを登録しました", Toast.LENGTH_SHORT).show();
+
+            // MainActivityに戻る
+            activity.finish();
         } catch (Exception e) {
             Log.d("error", e.toString());
+            Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -145,20 +137,15 @@ public class StockpileEntryModel {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // はい ボタンクリック処理
-                            boolean isSuccess = false;
                             StockpileTableDelete delete = new StockpileTableDelete(useProperties);
                             try {
-                                isSuccess = delete.execute().get();
-                            } catch (Exception e) {
-                                Log.d("error", "削除失敗");
-                            }
-
-                            if (isSuccess) {
+                                delete.execute();
                                 Toast.makeText(activity, "データベースに登録済みの備蓄品データを削除しました", Toast.LENGTH_SHORT).show();
+
                                 // MainActivityに戻る
                                 activity.finish();
-                            } else {
-                                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Log.d("error", "削除失敗");
                             }
                         }
                     });
@@ -211,5 +198,19 @@ public class StockpileEntryModel {
     // リストを更新する
     public void updateListView() {
         stockpileListView.setAdapter(stockpileListAdapter);
+    }
+
+    // リストを更新する
+    public void updateListView(ArrayList<StockpileData> stockpileList) {
+        this.stockpileList = stockpileList;
+        stockpileListAdapter = new StockpileListAdapter(activity, stockpileList);
+        updateListView();
+        if (stockpileList.size() != 0) {
+            Toast.makeText(activity, "登録済み備蓄品データを取得しました", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
+        }
+        // LoadingDialogを閉じる
+        dialog.dismiss();
     }
 }
