@@ -1,16 +1,8 @@
 package com.example.tsuka.stockpileloanapplication.models;
 
-import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -21,17 +13,18 @@ import com.example.tsuka.stockpileloanapplication.activities.MapsActivity;
 import com.example.tsuka.stockpileloanapplication.activities.PersonalEntryActivity;
 import com.example.tsuka.stockpileloanapplication.db.PersonalTableInsert;
 import com.example.tsuka.stockpileloanapplication.db.PersonalTableUpdate;
+import com.example.tsuka.stockpileloanapplication.utils.LatLngGetter;
 import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 public class PersonalEntryModel {
     private PersonalEntryActivity activity;
-    private LocationManager locationManager;
 
     private RelativeLayout back;
 
     private EditText contactInfoEdit, contactInfoEdit2;
 
     private String strLatitude, strLongitude;
+    private LatLngGetter latLngGetter;
 
     private static final int NULL_INT = -10000;
 
@@ -69,7 +62,7 @@ public class PersonalEntryModel {
                         Toast.makeText(activity, "取得完了メッセージが出るまで待機してください", Toast.LENGTH_SHORT).show();
 
                         // 位置情報を取得する
-                        getLocation();
+                        latLngGetter = new LatLngGetter(activity);
                     }
                 });
         alertDlg.setNegativeButton(
@@ -88,10 +81,13 @@ public class PersonalEntryModel {
     // 位置情報を確認ボタンを押下時の挙動
     public void confLocation() {
         // 位置情報を取得済みかどうかの確認
-        if (strLatitude == null) {
-            Toast.makeText(activity, "現在位置を取得してください", Toast.LENGTH_SHORT).show();
+        if (!latLngGetter.isGet()) {
+            Toast.makeText(activity, "現在位置の取得が完了していません", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        strLatitude = String.valueOf(latLngGetter.getLatLng().latitude);
+        strLongitude = String.valueOf(latLngGetter.getLatLng().longitude);
 
         // 位置情報を確認する場所の確認ダイアログの生成
         AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
@@ -125,48 +121,6 @@ public class PersonalEntryModel {
         alertDlg.create().show();
     }
 
-    // 位置情報を取得する関数
-    private void getLocation() {
-        locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                0, // 位置情報更新を行う最低更新時間間隔（ms）
-                0, // 位置情報更新を行う最小距離間隔（メートル）
-                new LocationListener() {
-                    // ロケーションが変更された時の動き
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        // 権限のチェック
-                        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
-                                != PackageManager.PERMISSION_GRANTED)
-                            return;
-                        // 緯度と経度を取得
-                        strLatitude = String.valueOf(location.getLatitude());
-                        strLongitude = String.valueOf(location.getLongitude());
-
-                        Toast.makeText(activity, "現在位置の取得が完了しました", Toast.LENGTH_SHORT).show();
-                        Log.d("Location", "Complete");
-                        locationManager.removeUpdates(this);
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-                        Toast.makeText(activity, "位置情報がOFFになっています", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                    }
-                }
-        );
-    }
-
     // 登録ボタンを押下時の挙動
     public void locationEntry() {
         // 登録が可能な状態かどうかの確認
@@ -176,8 +130,8 @@ public class PersonalEntryModel {
             Toast.makeText(activity, "連絡先2が入力されてません", Toast.LENGTH_SHORT).show();
         } else if (contactInfoEdit.getText().toString().equals(contactInfoEdit2.getText().toString())) {
             Toast.makeText(activity, "連絡先2には連絡先1とは別の連絡先を入力してください", Toast.LENGTH_SHORT).show();
-        } else if (strLatitude == null) {
-            Toast.makeText(activity, "現在位置を取得してください", Toast.LENGTH_SHORT).show();
+        } else if (!latLngGetter.isGet()) {
+            Toast.makeText(activity, "現在位置の取得が完了していません", Toast.LENGTH_SHORT).show();
         } else {
             // パーソナルデータ登録の確認ダイアログの生成
             AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
