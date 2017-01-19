@@ -61,6 +61,7 @@ public class MapSearchModel {
                         // 位置情報をMapsActivityに受け渡す
                         intent.putExtra("lat", String.valueOf(latLngGetter.getLatLng().latitude));
                         intent.putExtra("lng", String.valueOf(latLngGetter.getLatLng().longitude));
+
                         // 検索ワードをMapに渡す
                         intent.putExtra("stockpileName", searchStockpileEdit.getText().toString());
 
