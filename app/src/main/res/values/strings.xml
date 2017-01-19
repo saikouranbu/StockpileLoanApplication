@@ -22,4 +22,5 @@
     <string name="stockpile_map_open">備蓄品マップを表示</string>
     <string name="stockpile_search">検索ワード</string>
     <string name="stockpile_search_edit_hint">備蓄品名を入力</string>
+    <string name="title_activity_stockpile_maps">Map</string>
 </resources>

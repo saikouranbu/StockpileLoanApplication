@@ -44,7 +44,6 @@ public class LatLngGetter {
                     // ロケーションが変更された時の動き
                     @Override
                     public void onLocationChanged(Location location) {
-                        Log.d("LocationChanged", "Loading");
                         // 権限のチェック
                         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
                                 != PackageManager.PERMISSION_GRANTED)
@@ -53,7 +52,7 @@ public class LatLngGetter {
                         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
                         Toast.makeText(activity, "現在位置の取得が完了しました", Toast.LENGTH_SHORT).show();
-                        Log.d("Location", "Complete");
+                        Log.d("LocationChanged", "Complete");
                         locationManager.removeUpdates(this);
                         isGet = true;
                     }
@@ -74,5 +73,6 @@ public class LatLngGetter {
                     }
                 }
         );
+        Log.d("LocationChanged", "Loading");
     }
 }
