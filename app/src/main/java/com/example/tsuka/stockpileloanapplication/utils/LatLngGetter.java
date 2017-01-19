@@ -24,7 +24,6 @@ public class LatLngGetter {
     public LatLngGetter(Activity activity) {
         this.activity = activity;
         isGet = false;
-        getLocation();
     }
 
     public boolean isGet(){
@@ -35,7 +34,7 @@ public class LatLngGetter {
         return latLng;
     }
 
-    private void getLocation() {
+    public void getLocation() {
         locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,

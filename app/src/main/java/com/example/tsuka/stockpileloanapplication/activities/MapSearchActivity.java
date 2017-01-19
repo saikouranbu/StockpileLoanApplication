@@ -18,6 +18,11 @@ public class MapSearchActivity extends AppCompatActivity {
         model = new MapSearchModel(this);
     }
 
+    // 位置情報を取得ボタンを押下時の挙動
+    public void onGetLocationClick(View v) {
+        model.getLocationClick();
+    }
+
     // 備蓄品マップを表示ボタンを押下時の挙動
     public void onDisplayStockpileMapClick(View v){
         model.displayStockpileMap();

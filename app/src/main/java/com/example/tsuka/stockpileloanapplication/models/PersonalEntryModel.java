@@ -45,6 +45,9 @@ public class PersonalEntryModel {
             strLongitude = String.valueOf(useProperties.getLongitude());
             useProperties.logProperties();
         }
+
+        latLngGetter = new LatLngGetter(activity);
+
         useProperties = null;
     }
 
@@ -62,7 +65,7 @@ public class PersonalEntryModel {
                         Toast.makeText(activity, "取得完了メッセージが出るまで待機してください", Toast.LENGTH_SHORT).show();
 
                         // 位置情報を取得する
-                        latLngGetter = new LatLngGetter(activity);
+                        latLngGetter.getLocation();
                     }
                 });
         alertDlg.setNegativeButton(
@@ -81,13 +84,13 @@ public class PersonalEntryModel {
     // 位置情報を確認ボタンを押下時の挙動
     public void confLocation() {
         // 位置情報を取得済みかどうかの確認
-        if (!latLngGetter.isGet()) {
+        if (!latLngGetter.isGet() && strLatitude == null) {
             Toast.makeText(activity, "現在位置の取得が完了していません", Toast.LENGTH_SHORT).show();
             return;
+        } else if (latLngGetter.isGet()) {
+            strLatitude = String.valueOf(latLngGetter.getLatLng().latitude);
+            strLongitude = String.valueOf(latLngGetter.getLatLng().longitude);
         }
-
-        strLatitude = String.valueOf(latLngGetter.getLatLng().latitude);
-        strLongitude = String.valueOf(latLngGetter.getLatLng().longitude);
 
         // 位置情報を確認する場所の確認ダイアログの生成
         AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
@@ -130,7 +133,7 @@ public class PersonalEntryModel {
             Toast.makeText(activity, "連絡先2が入力されてません", Toast.LENGTH_SHORT).show();
         } else if (contactInfoEdit.getText().toString().equals(contactInfoEdit2.getText().toString())) {
             Toast.makeText(activity, "連絡先2には連絡先1とは別の連絡先を入力してください", Toast.LENGTH_SHORT).show();
-        } else if (!latLngGetter.isGet()) {
+        } else if (!latLngGetter.isGet() && strLatitude == null) {
             Toast.makeText(activity, "現在位置の取得が完了していません", Toast.LENGTH_SHORT).show();
         } else {
             // パーソナルデータ登録の確認ダイアログの生成
@@ -147,6 +150,11 @@ public class PersonalEntryModel {
 
                             String contact = contactInfoEdit.getText().toString();
                             String contact2 = contactInfoEdit2.getText().toString();
+
+                            if (latLngGetter.isGet()) {
+                                strLatitude = String.valueOf(latLngGetter.getLatLng().latitude);
+                                strLongitude = String.valueOf(latLngGetter.getLatLng().longitude);
+                            }
 
                             useProperties.entryProperties(contact, contact2, strLatitude, strLongitude);
 
