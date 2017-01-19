@@ -46,4 +46,8 @@ public class StockpileMapsActivity extends FragmentActivity implements OnMapRead
 
         latLng = null;
     }
+
+    public void getStockpileSearchResult(){
+
+    }
 }

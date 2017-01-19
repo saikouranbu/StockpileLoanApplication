@@ -27,7 +27,7 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Void> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "insert into personal_tbl (contact_one, contact_two, location, longitude) values (?, ?, ?, ?)";
+            String sql = "insert into personal_tbl (contact_one, contact_two, latitude, longitude) values (?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, properties.getContactInfo()); // 連絡先1
@@ -38,7 +38,7 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Void> {
             preparedStatement.executeUpdate(); // データベースに挿入
 
             // 挿入したパーソナルデータのIDを取得
-            sql = "select personal_id from personal_tbl where location = ? and longitude = ?";
+            sql = "select personal_id from personal_tbl where latitude = ? and longitude = ?";
 
             // ID取得用に再接続
             connection.close();
