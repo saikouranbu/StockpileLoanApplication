@@ -9,13 +9,11 @@ import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
 import com.example.tsuka.stockpileloanapplication.models.MainModel;
-import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 public class MainActivity extends AppCompatActivity {
     private MainModel model;
 
     private static final int REQUEST_LOCATION = 1; // 識別用:位置情報の許可
-    private UseProperties useProperties;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         model.stockpileEntry();
     }
 
+    // 備蓄品マップボタンを押下時の挙動
+    public void onStockpileMapClick(View v) {
+        model.stockpileMap();
+    }
     // 備蓄品データ公開スイッチを押下時の挙動
     public void onOpenSwitchClick(View v) {
         model.checkedSwitch();

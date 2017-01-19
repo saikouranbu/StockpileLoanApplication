@@ -40,7 +40,7 @@ public class PersonalEntryModel {
 
         back = (RelativeLayout) activity.findViewById(R.id.activity_personal_entry);
 
-        contactInfoEdit = (EditText) activity.findViewById(R.id.contactInfoEdit);
+        contactInfoEdit = (EditText) activity.findViewById(R.id.searchStockpileEdit);
         contactInfoEdit2 = (EditText) activity.findViewById(R.id.contactInfoEdit2);
 
         // 既に情報が登録されていた場合情報をEditTextに表示

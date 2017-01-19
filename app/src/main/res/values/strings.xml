@@ -19,4 +19,7 @@
     <string name="stockpile_add">備蓄品データ追加</string>
     <string name="stockpile_remove">備蓄品データ削除</string>
     <string name="stockpile_delete">全削除</string>
+    <string name="stockpile_map_open">備蓄品マップを表示</string>
+    <string name="stockpile_search">検索ワード</string>
+    <string name="stockpile_search_edit_hint">備蓄品名を入力</string>
 </resources>

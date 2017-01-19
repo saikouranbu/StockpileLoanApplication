@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
 import com.example.tsuka.stockpileloanapplication.activities.MainActivity;
+import com.example.tsuka.stockpileloanapplication.activities.MapSearchActivity;
 import com.example.tsuka.stockpileloanapplication.activities.PersonalEntryActivity;
 import com.example.tsuka.stockpileloanapplication.activities.StockpileEntryActivity;
 import com.example.tsuka.stockpileloanapplication.db.PersonalTableOpenChange;
@@ -30,6 +31,11 @@ public class MainModel {
         useProperties = new UseProperties(activity.getApplicationContext());
 
         openSwitch = (Switch) activity.findViewById(R.id.stockpileOpenSwitch);
+
+        // 備蓄品マップを公開設定にしている場合スイッチをon
+        if(useProperties.isOpen()){
+            openSwitch.toggle();
+        }
     }
 
     // パーソナルデータ登録ボタンを押下時の挙動
@@ -64,6 +70,22 @@ public class MainModel {
         } else {
             Toast.makeText(activity, "パーソナルデータを登録してください", Toast.LENGTH_SHORT).show();
             return false;
+        }
+    }
+
+    // 備蓄品マップボタンを押下時の挙動
+    public void stockpileMap() {
+        if (!isPersonalDataEmpty()) {
+            // パーソナルデータが登録されていない場合
+            Toast.makeText(activity, "パーソナルデータを登録してください", Toast.LENGTH_SHORT).show();
+            return;
+        }else if(!openSwitch.isChecked()){
+            // 備蓄品マップが公開されていない場合
+            Toast.makeText(activity, "備蓄品マップを公開してください", Toast.LENGTH_SHORT).show();
+        }else{
+            // 備蓄品マップアクティビティに遷移
+            Intent intent = new Intent(activity.getBaseContext(), MapSearchActivity.class);
+            activity.startActivity(intent);
         }
     }
 
