@@ -145,6 +145,7 @@ public class PersonalEntryModel {
                         strLongitude = String.valueOf(location.getLongitude());
 
                         Toast.makeText(activity, "現在位置の取得が完了しました", Toast.LENGTH_SHORT).show();
+                        Log.d("Location", "Complete");
                         locationManager.removeUpdates(this);
                     }
 
