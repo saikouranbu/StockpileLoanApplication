@@ -58,6 +58,7 @@ public class StockpileEntryModel {
             Toast.makeText(activity, "登録済みの備蓄品データを取得しています", Toast.LENGTH_SHORT).show();
             // データベースに接続するまでのLoadingDialogを表示
             dialog = new ProgressDialog(activity);
+            dialog.setCanceledOnTouchOutside(false);
             dialog.setTitle("Please wait");
             dialog.setMessage("Loading...");
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

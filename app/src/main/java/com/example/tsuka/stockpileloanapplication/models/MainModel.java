@@ -96,7 +96,7 @@ public class MainModel {
             // 何も処理せずにスイッチを戻す
             openSwitch.toggle();
             return;
-        } else if (!useProperties.isRegisteredProperties()) {
+        } else if (!useProperties.isStockpileRegistered()) {
             // 備蓄品データ未登録の場合
             // 何も処理せずにスイッチを戻す
             Toast.makeText(activity, "備蓄品データを登録してください", Toast.LENGTH_SHORT).show();

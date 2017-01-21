@@ -44,7 +44,9 @@ public class StockpileTableSearch extends AsyncTask<Void, Void, ArrayList> {
 
             PersonalData personalTemp = null;
             StockpileData stockpileTemp = null;
+            Log.d("result", "start");
             while (result.next()) {
+                Log.d("result", "next");
                 if(personalList.size() == 0){
                     // 取得データの1行目
                     personalTemp = new PersonalData(result.getInt("stockpile_tbl.personal_id"),

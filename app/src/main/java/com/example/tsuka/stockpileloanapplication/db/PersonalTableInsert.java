@@ -57,6 +57,7 @@ public class PersonalTableInsert  extends AsyncTask<Void, Void, Void> {
             }
             // 取得したパーソナルIDをプロパティに保存
             properties.setPersonalId(personalId);
+            properties.setRegistered(true);
 
             preparedStatement.close();
             connection.close();

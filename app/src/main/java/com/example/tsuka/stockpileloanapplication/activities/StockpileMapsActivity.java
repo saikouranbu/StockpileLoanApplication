@@ -50,6 +50,7 @@ public class StockpileMapsActivity extends FragmentActivity implements OnMapRead
 
         // マップに現在位置のマーカーを表示し視点を現在位置に移動
         dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setTitle("Please wait");
         dialog.setMessage("Loading...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
