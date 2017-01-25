@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
 import com.example.tsuka.stockpileloanapplication.models.MainModel;
+import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 public class MainActivity extends AppCompatActivity {
     private MainModel model;
@@ -56,5 +57,13 @@ public class MainActivity extends AppCompatActivity {
     // 備蓄品データ公開スイッチを押下時の挙動
     public void onOpenSwitchClick(View v) {
         model.checkedSwitch();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 備蓄品データが全削除されて戻ってきた場合スイッチをOFFにする
+        if (new UseProperties(this).isOpen() == false)
+            model.offOpenSwitch();
     }
 }

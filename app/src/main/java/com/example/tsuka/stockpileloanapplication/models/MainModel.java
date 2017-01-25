@@ -96,8 +96,8 @@ public class MainModel {
             // 何も処理せずにスイッチを戻す
             openSwitch.toggle();
             return;
-        } else if (!useProperties.isStockpileRegistered()) {
-            // 備蓄品データ未登録の場合
+        } else if (!useProperties.isStockpileRegistered() && !openSwitch.isChecked()) {
+            // 備蓄品データ未登録の場合（ただし備蓄品データ登録画面で全削除してきた場合を除く）
             // 何も処理せずにスイッチを戻す
             Toast.makeText(activity, "備蓄品データを登録してください", Toast.LENGTH_SHORT).show();
             openSwitch.toggle();
@@ -189,5 +189,9 @@ public class MainModel {
                 alertDlg.create().show();
             }
         }
+    }
+
+    public void offOpenSwitch(){
+        openSwitch.setChecked(false);
     }
 }

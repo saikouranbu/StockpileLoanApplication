@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
 import com.example.tsuka.stockpileloanapplication.activities.StockpileEntryActivity;
+import com.example.tsuka.stockpileloanapplication.db.PersonalTableOpenChange;
 import com.example.tsuka.stockpileloanapplication.db.StockpileTableDelete;
 import com.example.tsuka.stockpileloanapplication.db.StockpileTableGet;
 import com.example.tsuka.stockpileloanapplication.db.StockpileTableInsert;
@@ -147,6 +148,18 @@ public class StockpileEntryModel {
                                 activity.finish();
                             } catch (Exception e) {
                                 Log.d("error", "削除失敗");
+                            }
+                            // プロパティファイルに保存
+                            useProperties.setOpenData(false);
+
+                            // データベースに送信
+                            PersonalTableOpenChange change = new PersonalTableOpenChange(useProperties);
+                            try {
+                                change.execute();
+                                Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Log.d("error", e.toString());
+                                Toast.makeText(activity, "通信が正常に完了しませんでした", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
