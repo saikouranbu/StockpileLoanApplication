@@ -50,13 +50,6 @@
                     android:layout_height="wrap_content"
                     android:layout_width="60dp" />
                 <TextView
-                    android:text="@string/stockpile_num_unit"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/stockpileReqNumUnit"
-                    android:gravity="center"
-                    android:ems="4"
-                    android:layout_width="60dp" />
-                <TextView
                     android:text="@string/stockpile_num"
                     android:layout_height="wrap_content"
                     android:id="@+id/stockpileNum"
@@ -64,12 +57,12 @@
                     android:ems="4"
                     android:layout_width="60dp" />
                 <TextView
-                    android:text="@string/stockpile_num_unit"
+                    android:text="@string/emergency_level"
                     android:layout_height="wrap_content"
                     android:id="@+id/stockpileNumUnit"
                     android:gravity="center"
                     android:ems="4"
-                    android:layout_width="60dp" />
+                    android:layout_width="80dp" />
             </LinearLayout>
 
             <ListView

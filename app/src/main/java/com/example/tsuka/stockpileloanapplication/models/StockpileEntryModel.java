@@ -32,7 +32,6 @@ public class StockpileEntryModel {
 
     public StockpileEntryModel(StockpileEntryActivity activity) {
         this.activity = activity;
-
     }
 
     public void onStart(){
@@ -44,7 +43,7 @@ public class StockpileEntryModel {
         useProperties = new UseProperties(activity.getApplicationContext());
 
         // データベースにデータが登録済みの場合データを取得
-        //if(useProperties.isStockpileRegistered()) stockpileGetList();
+        if (useProperties.isStockpileRegistered()) stockpileGetList();
 
         stockpileListAdapter = new StockpileListAdapter(activity, stockpileList);
         updateListView();
@@ -92,7 +91,11 @@ public class StockpileEntryModel {
             // 備蓄品データに未入力がある場合
             Toast.makeText(activity, "備蓄品データがすべて入力されていません", Toast.LENGTH_SHORT).show();
             return;
-        }else{
+        } else if (isOverlapName()) {
+            // 備蓄品名が重複している場合
+            Toast.makeText(activity, "備蓄品名が重複しています", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
             Toast.makeText(activity, "備蓄品データの送信を開始しました", Toast.LENGTH_SHORT).show();
         }
 
@@ -187,6 +190,21 @@ public class StockpileEntryModel {
             if (!stock.isCompletedStockpileData()) return false;
         }
         return true;
+    }
+
+    // 備蓄品名が重複していないか確認
+    // 重複していたらtrue
+    private boolean isOverlapName() {
+        ArrayList<Integer> nameList = new ArrayList<Integer>();
+        int position = -1;
+        for (StockpileData stock : stockpileList) {
+            position = stock.getStockpileNamePosition();
+            if (nameList.contains(position)) {
+                return true;
+            }
+            nameList.add(position);
+        }
+        return false;
     }
 
     // 背景をタップしたときにキーボードを閉じる

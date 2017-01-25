@@ -31,16 +31,16 @@ public class StockpileTableGet extends AsyncTask<Void, Void, ArrayList> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "select * from stockpile_tbl where personal_id = ?";
+            String sql = "select * from stockpile_tbl where stockpile_point = ?";
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, properties.getPersonalId()); // パーソナルID
+            preparedStatement.setString(1, properties.getStockpilePoint()); // 備蓄地点
 
             ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                stockpileList.add(new StockpileData(result.getString("name"), String.valueOf(result.getInt("req_num"))
-                        , result.getString("num_unit"), String.valueOf(result.getInt("num"))));
+                stockpileList.add(new StockpileData(result.getInt("name"), String.valueOf(result.getInt("req_num")),
+                        String.valueOf(result.getInt("num")), result.getInt("emergency_level")));
             }
 
             preparedStatement.close();
@@ -55,7 +55,7 @@ public class StockpileTableGet extends AsyncTask<Void, Void, ArrayList> {
                 if (connection != null) connection.close();
                 if (preparedStatement != null) preparedStatement.close();
             } catch (SQLException e) {
-                Log.d("error", "データベースに接続できていない");
+                Log.d("error", "データベースアクセスエラー");
             }
         }
         return stockpileList;

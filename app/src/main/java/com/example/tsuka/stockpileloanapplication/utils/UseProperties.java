@@ -12,9 +12,8 @@ import java.util.Properties;
 public class UseProperties {
     private static final String PERSONAL_PROP = "personal.properties";
 
-    private static final int NULL_INT = -10000;
     private static final double NULL_DOUBLE = -10000;
-    private static final String PERSONAL_ID = "personalId";
+    private static final String STOCKPILE_POINT = "stockpilePoint";
     private static final String CONTACT_1 = "contactInfo";
     private static final String CONTACT_2 = "contactInfo2";
     private static final String LATITUDE = "latitude";
@@ -34,7 +33,7 @@ public class UseProperties {
     // 既にパーソナルデータが登録されているかの判別
     public boolean isRegisteredProperties() {
         Log.d("propertySize", String.valueOf(properties.stringPropertyNames().size()));
-        if (getPersonalId() != NULL_INT) {
+        if (getStockpilePoint() != null) {
             return true;
         } else {
             return false;
@@ -52,10 +51,11 @@ public class UseProperties {
     }
 
     // パーソナルデータをプロパティファイルに登録
-    public void entryProperties(String contact, String contact2, String lat, String lng) {
+    public void entryProperties(String stockpilePoint, String contact, String contact2, String lat, String lng) {
         String strLat = String.valueOf(lat);
         String strLng = String.valueOf(lng);
 
+        properties.setProperty(STOCKPILE_POINT, stockpilePoint);
         properties.setProperty(CONTACT_1, contact);
         properties.setProperty(CONTACT_2, contact2);
         properties.setProperty(LATITUDE, strLat);
@@ -76,13 +76,13 @@ public class UseProperties {
     }
 
     // プロパティファイルからパーソナルデータを取得
-    public int getPersonalId() {
-        String temp = properties.getProperty(PERSONAL_ID);
+    public String getStockpilePoint() {
+        String temp = properties.getProperty(STOCKPILE_POINT);
 
         // プロパティファイルに未登録の場合の処理用
-        if(temp == null) return NULL_INT;
+        if(temp == null) return null;
 
-        return Integer.parseInt(temp);
+        return temp;
     }
 
     public String getContactInfo() {
@@ -111,13 +111,6 @@ public class UseProperties {
         return Double.parseDouble(temp);
     }
 
-    public void setPersonalId(int personalId) {
-        String strId = String.valueOf(personalId);
-        properties.setProperty(PERSONAL_ID, strId);
-
-        propertyOutput(properties);
-    }
-
     public boolean isStockpileRegistered() {
         return Boolean.valueOf(properties.getProperty(REGISTERED));
     }
@@ -126,7 +119,7 @@ public class UseProperties {
         return Boolean.valueOf(properties.getProperty(OPEN));
     }
 
-    public void setRegistered(boolean isRegistered) {
+    public void setStockpileRegistered(boolean isRegistered) {
         String strRegistered = String.valueOf(isRegistered);
         properties.setProperty(REGISTERED, strRegistered);
 
@@ -142,7 +135,7 @@ public class UseProperties {
 
     // デバッグ用
     public void logProperties(){
-        Log.d("id", String.valueOf(getPersonalId()));
+        Log.d("stockpilePoint", getStockpilePoint());
         Log.d("contact", getContactInfo());
         Log.d("contact2", getContactInfo2());
         Log.d("latitude", String.valueOf(getLatitude()));

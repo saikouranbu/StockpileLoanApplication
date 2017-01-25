@@ -8,23 +8,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/stockpileNameSpinner"
-        android:layout_weight="1"
-        android:spinnerMode="dialog"
-        android:entries="@array/stockpile_list" />
-
-    <NumberPicker
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/stockpileReqNum"
         android:layout_weight="1" />
 
     <EditText
-        android:id="@+id/stockpileNumUnitEdit"
+        android:id="@+id/stockpileReqNum"
         android:layout_height="wrap_content"
         android:layout_width="60dp"
         android:gravity="right"
-        android:maxLength="5"
-        android:inputType="text|textPersonName" />
+        android:inputType="number"
+        android:maxLength="5" />
 
     <EditText
         android:id="@+id/stockpileNum"
@@ -34,11 +26,10 @@
         android:maxLength="5"
         android:inputType="number" />
 
-    <TextView
-        android:id="@+id/stockpileNumUnit"
-        android:layout_width="60dp"
+    <Spinner
+        android:id="@+id/emergencyLevel"
         android:layout_height="wrap_content"
-        android:ems="4"
-        android:gravity="center"
-        android:textSize="14sp" />
+        android:layout_width="wrap_content"
+        android:gravity="right" />
+
 </LinearLayout>

@@ -4,8 +4,9 @@ package com.example.tsuka.stockpileloanapplication.models;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.tsuka.stockpileloanapplication.R;
@@ -17,16 +18,23 @@ public class MapSearchModel {
     private RelativeLayout back;
     private MapSearchActivity activity;
 
-    private EditText searchStockpileEdit;
+    private final String[] STOCKPILES = {
+            "飲料水500ml", "飲料水2L", "保存食", "毛布",
+            "ダンボール", "コンロ", "皿", "コップ", "箸",
+            "スプーン", "ガムテープ", "はさみ", "紐", "ロープ"
+    };
 
     private LatLngGetter latLngGetter;
+    private Spinner searchStockpileSpinner;
 
     public MapSearchModel(MapSearchActivity activity){
         this.activity = activity;
 
         back = (RelativeLayout) activity.findViewById(R.id.activity_map_search);
 
-        searchStockpileEdit = (EditText) activity.findViewById(R.id.searchStockpileEdit);
+        searchStockpileSpinner = (Spinner) activity.findViewById(R.id.searchStockpileSpinner);
+        searchStockpileSpinner.setAdapter(
+                new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, STOCKPILES));
 
         latLngGetter = new LatLngGetter(activity);
     }
@@ -63,7 +71,7 @@ public class MapSearchModel {
                         intent.putExtra("lng", String.valueOf(latLngGetter.getLatLng().longitude));
 
                         // 検索ワードをMapに渡す
-                        intent.putExtra("stockpileName", searchStockpileEdit.getText().toString());
+                        intent.putExtra("stockpileNamePosition", String.valueOf(searchStockpileSpinner.getSelectedItemPosition()));
 
                         // MapsActivityに遷移
                         activity.startActivity(intent);

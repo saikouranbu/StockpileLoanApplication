@@ -39,17 +39,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
             android:onClick="onGetLocationClick"
             android:text="@string/get_location"
             app:layout_constraintBottom_toTopOf="@+id/searchStockpile"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintLeft_creator="1" />
 
         <android.support.constraint.Guideline
             android:id="@+id/searchStockpileGuideline"
-            android:layout_width="352dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="198dp"
@@ -67,21 +67,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/searchStockpileGuideline" />
 
-        <EditText
-            android:id="@+id/searchStockpileEdit"
+        <Spinner
+            android:id="@+id/searchStockpileSpinner"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="@string/stockpile_search_edit_hint"
-            android:inputType="text"
             android:labelFor="@+id/searchStockpile"
-            android:maxLength="255"
-            app:layout_constraintBaseline_toBaselineOf="@+id/searchStockpile"
-            app:layout_constraintHorizontal_bias="0.21"
             app:layout_constraintLeft_toRightOf="@+id/searchStockpile"
             app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            app:layout_constraintBottom_toBottomOf="@+id/searchStockpile"
+            app:layout_constraintTop_toTopOf="@+id/searchStockpile" />
 
         <Button
             android:id="@+id/displayStockpileMapButton"
@@ -89,14 +85,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:onClick="onDisplayStockpileMapClick"
             android:text="@string/stockpile_map_open"
-            app:layout_constraintHorizontal_bias="0.57"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchStockpileEdit"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1" />
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"
+            android:layout_marginTop="39dp"
+            app:layout_constraintTop_toBottomOf="@+id/searchStockpileSpinner" />
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

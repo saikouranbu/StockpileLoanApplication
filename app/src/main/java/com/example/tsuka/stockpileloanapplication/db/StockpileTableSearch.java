@@ -5,10 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.tsuka.stockpileloanapplication.activities.StockpileMapsActivity;
-import com.example.tsuka.stockpileloanapplication.models.StockpileEntryModel;
 import com.example.tsuka.stockpileloanapplication.utils.PersonalData;
 import com.example.tsuka.stockpileloanapplication.utils.StockpileData;
-import com.example.tsuka.stockpileloanapplication.utils.UseProperties;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,12 +16,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StockpileTableSearch extends AsyncTask<Void, Void, ArrayList> {
-    private String stockpileName;
+    private int stockpileNamePosition;
 
     private StockpileMapsActivity activity;
 
-    public StockpileTableSearch(String stockpileName, StockpileMapsActivity activity) {
-        this.stockpileName = stockpileName;
+    public StockpileTableSearch(int stockpileNamePosition, StockpileMapsActivity activity) {
+        this.stockpileNamePosition = this.stockpileNamePosition;
         this.activity = activity;
     }
 
@@ -35,10 +33,10 @@ public class StockpileTableSearch extends AsyncTask<Void, Void, ArrayList> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "select * from stockpile_tbl join personal_tbl on stockpile_tbl.personal_id = personal_tbl.personal_id where open_data = true and req_num < num and name like ? order by stockpile_tbl.personal_id, stockpile_id";
+            String sql = "select * from stockpile_tbl join personal_tbl on stockpile_tbl.stockpile_point = personal_tbl.stockpile_point where open_data = true and name like ? order by stockpile_tbl.stockpile_point, stockpile_id";
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, "%" + stockpileName + "%"); // 検索ワード
+            preparedStatement.setInt(1, stockpileNamePosition); // 検索備蓄品の配列番号
 
             ResultSet result = preparedStatement.executeQuery();
 
@@ -47,41 +45,16 @@ public class StockpileTableSearch extends AsyncTask<Void, Void, ArrayList> {
             Log.d("result", "start");
             while (result.next()) {
                 Log.d("result", "next");
-                if(personalList.size() == 0){
                     // 取得データの1行目
-                    personalTemp = new PersonalData(result.getInt("stockpile_tbl.personal_id"),
+                personalTemp = new PersonalData(result.getString("stockpile_tbl.stockpile_point"),
                             result.getString("contact_one"), result.getString("contact_two"),
                             result.getDouble("latitude"), result.getDouble("longitude"));
-                    stockpileTemp = new StockpileData(result.getString("name"), String.valueOf(result.getInt("req_num")),
-                            result.getString("num_unit"), String.valueOf(result.getInt("num")));
-
+                stockpileTemp = new StockpileData(result.getInt("name"), String.valueOf(result.getInt("req_num")),
+                        String.valueOf(result.getInt("num")), result.getInt("emergency_level"));
                     Log.d("addStockpile", stockpileTemp.toString());
-                    personalTemp.addStockpile(stockpileTemp);
+                personalTemp.setStockpile(stockpileTemp);
                     Log.d("addPersonal", personalTemp.toString());
                     personalList.add(personalTemp);
-                } else{
-                    // 2行目以降
-                    if(result.getInt("personal_id") == personalList.get(personalList.size() - 1).getPersonalId()){
-                        // 取得した行のパーソナルデータが既にリストにある場合
-                        stockpileTemp = new StockpileData(result.getString("name"), String.valueOf(result.getInt("req_num")),
-                                result.getString("num_unit"), String.valueOf(result.getInt("num")));
-
-                        Log.d("addPersonal", personalTemp.toString());
-                        personalList.get(personalList.size() - 1).addStockpile(stockpileTemp);
-                    }else{
-                        // 取得した行のパーソナルデータが既にリストにない場合
-                        personalTemp = new PersonalData(result.getInt("stockpile_tbl.personal_id"),
-                                result.getString("contact_one"), result.getString("contact_two"),
-                                result.getDouble("latitude"), result.getDouble("longitude"));
-                        stockpileTemp = new StockpileData(result.getString("name"), String.valueOf(result.getInt("req_num")),
-                                result.getString("num_unit"), String.valueOf(result.getInt("num")));
-
-                        Log.d("addStockpile", stockpileTemp.toString());
-                        personalTemp.addStockpile(stockpileTemp);
-                        Log.d("addPersonal", personalTemp.toString());
-                        personalList.add(personalTemp);
-                    }
-                }
             }
 
             preparedStatement.close();
@@ -97,7 +70,7 @@ public class StockpileTableSearch extends AsyncTask<Void, Void, ArrayList> {
                 if (connection != null) connection.close();
                 if (preparedStatement != null) preparedStatement.close();
             } catch (SQLException e) {
-                Log.d("error", "データベースに接続できていない");
+                Log.d("error", "データベースアクセスエラー");
             }
         }
         return personalList;

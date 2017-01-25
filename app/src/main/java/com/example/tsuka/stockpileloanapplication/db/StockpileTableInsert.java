@@ -30,15 +30,15 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Void> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "insert into stockpile_tbl (personal_id, name, req_num, num_unit, num) values (?, ?, ?, ?, ?)";
+            String sql = "insert into stockpile_tbl (stockpile_point, name, req_num, num, emergency_level) values (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, properties.getPersonalId()); // パーソナルテーブルのID
+            preparedStatement.setString(1, properties.getStockpilePoint()); // 備蓄地点
             for (StockpileData data : stockpileData) {
-                preparedStatement.setString(2, data.getStockpileName()); // 備蓄品名
+                preparedStatement.setInt(2, data.getStockpileNamePosition()); // 備蓄品名
                 preparedStatement.setInt(3, Integer.valueOf(data.getStockpileReqNum())); // 備蓄必要数
-                preparedStatement.setString(4, data.getStockpileNumUnit()); // 備蓄品の単位
-                preparedStatement.setInt(5, Integer.valueOf(data.getStockpileNum())); // 備蓄数
+                preparedStatement.setInt(4, Integer.valueOf(data.getStockpileNum())); // 備蓄数
+                preparedStatement.setInt(5, data.getEmergencyLevelPosition());
 
                 preparedStatement.executeUpdate(); // データベースに挿入
             }
@@ -46,7 +46,7 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Void> {
             preparedStatement.close();
             connection.close();
 
-            properties.setRegistered(true); // プロパティファイルに備蓄品データを登録済みであることを保存
+            properties.setStockpileRegistered(true); // プロパティファイルに備蓄品データを登録済みであることを保存
 
             Log.d("insert", "Completed");
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class StockpileTableInsert extends AsyncTask<Void, Void, Void> {
                 if (connection != null) connection.close();
                 if (preparedStatement != null) preparedStatement.close();
             } catch (SQLException e) {
-                Log.d("error", "データベースに接続できていない");
+                Log.d("error", "データベースアクセスエラー");
             }
         }
         return null;

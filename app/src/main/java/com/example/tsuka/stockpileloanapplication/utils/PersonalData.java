@@ -6,32 +6,29 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 public class PersonalData {
-    private ArrayList<StockpileData> stockpileList;
+    private StockpileData stockpile;
 
-    private int personalId;
-    private String contactInfo, contactInfo2;
+    private String stockpilePoint, contactInfo, contactInfo2;
     private double latitude, longitude;
 
-    public PersonalData(int personalId, String contactInfo, String contactInfo2, double latitude, double longitude){
-        stockpileList = new ArrayList<StockpileData>();
-
-        this.personalId = personalId;
+    public PersonalData(String stockpilePoint, String contactInfo, String contactInfo2, double latitude, double longitude){
+        this.stockpilePoint = stockpilePoint;
         this.contactInfo = contactInfo;
         this.contactInfo2 = contactInfo2;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public void addStockpile(StockpileData stock){
-        stockpileList.add(stock);
+    public void setStockpile(StockpileData stockpile){
+        this.stockpile = stockpile;
     }
 
-    public ArrayList<StockpileData> getStockpileList(){
-        return stockpileList;
+    public StockpileData getStockpile(){
+        return stockpile;
     }
 
-    public int getPersonalId(){
-        return personalId;
+    public String getStockpilePoint(){
+        return stockpilePoint;
     }
 
     public String getContactInfo(){
@@ -48,6 +45,6 @@ public class PersonalData {
 
     @Override
     public String toString() {
-        return stockpileList.toString();
+        return stockpile.getEmergencyLevel();
     }
 }

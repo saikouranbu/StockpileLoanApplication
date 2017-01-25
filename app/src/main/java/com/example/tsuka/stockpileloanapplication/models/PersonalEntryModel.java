@@ -21,24 +21,24 @@ public class PersonalEntryModel {
 
     private RelativeLayout back;
 
-    private EditText contactInfoEdit, contactInfoEdit2;
+    private EditText stockpilePointEdit, contactInfoEdit, contactInfoEdit2;
 
     private String strLatitude, strLongitude;
     private LatLngGetter latLngGetter;
-
-    private static final int NULL_INT = -10000;
 
     public PersonalEntryModel(PersonalEntryActivity activity) {
         this.activity = activity;
 
         back = (RelativeLayout) activity.findViewById(R.id.activity_personal_entry);
 
-        contactInfoEdit = (EditText) activity.findViewById(R.id.searchStockpileEdit);
+        stockpilePointEdit = (EditText) activity.findViewById(R.id.stockpilePointEdit);
+        contactInfoEdit = (EditText) activity.findViewById(R.id.contactInfoEdit);
         contactInfoEdit2 = (EditText) activity.findViewById(R.id.contactInfoEdit2);
 
         // 既に情報が登録されていた場合情報をEditTextに表示
         UseProperties useProperties = new UseProperties(activity.getApplicationContext());
         if (useProperties.isRegisteredProperties()) {
+            stockpilePointEdit.setText(useProperties.getStockpilePoint());
             contactInfoEdit.setText(useProperties.getContactInfo());
             contactInfoEdit2.setText(useProperties.getContactInfo2());
             strLatitude = String.valueOf(useProperties.getLatitude());
@@ -105,6 +105,8 @@ public class PersonalEntryModel {
                         Intent intent = new Intent(activity, MapsActivity.class);
 
                         // 位置情報をMapsActivityに受け渡す
+                        UseProperties properties = new UseProperties(activity);
+                        intent.putExtra("stockpilePoint", stockpilePointEdit.getText().toString());
                         intent.putExtra("lat", strLatitude);
                         intent.putExtra("lng", strLongitude);
 
@@ -127,7 +129,9 @@ public class PersonalEntryModel {
     // 登録ボタンを押下時の挙動
     public void locationEntry() {
         // 登録が可能な状態かどうかの確認
-        if (contactInfoEdit.getText().length() == 0) {
+        if (stockpilePointEdit.getText().length() == 0) {
+            Toast.makeText(activity, "備蓄地点が入力されてません", Toast.LENGTH_SHORT).show();
+        } else if (contactInfoEdit.getText().length() == 0) {
             Toast.makeText(activity, "連絡先1が入力されてません", Toast.LENGTH_SHORT).show();
         } else if (contactInfoEdit2.getText().length() == 0) {
             Toast.makeText(activity, "連絡先2が入力されてません", Toast.LENGTH_SHORT).show();
@@ -148,6 +152,7 @@ public class PersonalEntryModel {
                             // propertiesに情報を登録する
                             UseProperties useProperties = new UseProperties(activity.getApplicationContext());
 
+                            String stockpilePoint = stockpilePointEdit.getText().toString();
                             String contact = contactInfoEdit.getText().toString();
                             String contact2 = contactInfoEdit2.getText().toString();
 
@@ -156,9 +161,9 @@ public class PersonalEntryModel {
                                 strLongitude = String.valueOf(latLngGetter.getLatLng().longitude);
                             }
 
-                            useProperties.entryProperties(contact, contact2, strLatitude, strLongitude);
 
-                            if(useProperties.getPersonalId() != NULL_INT){
+                            if (useProperties.getStockpilePoint() != null) {
+                                useProperties.entryProperties(stockpilePoint, contact, contact2, strLatitude, strLongitude);
                                 // データベースにパーソナルデータが登録済みの場合は更新
                                 PersonalTableUpdate update = new PersonalTableUpdate(useProperties);
                                 try {
@@ -167,6 +172,7 @@ public class PersonalEntryModel {
                                     Log.d("error", e.toString());
                                 }
                             }else{
+                                useProperties.entryProperties(stockpilePoint, contact, contact2, strLatitude, strLongitude);
                                 // データベースに未登録の場合データベースに挿入
                                 PersonalTableInsert insert = new PersonalTableInsert(useProperties);
                                 try {

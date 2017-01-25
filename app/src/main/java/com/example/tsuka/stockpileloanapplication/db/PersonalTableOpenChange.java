@@ -25,12 +25,12 @@ public class PersonalTableOpenChange extends AsyncTask<Void, Void, Void> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "update personal_tbl set open_data = ? where personal_id = ?";
+            String sql = "update personal_tbl set open_data = ? where stockpile_point = ?";
             preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setBoolean(1, properties.isOpen()); // open_data
 
-            preparedStatement.setInt(2, properties.getPersonalId()); // パーソナルID
+            preparedStatement.setString(2, properties.getStockpilePoint()); // 備蓄地点
 
             preparedStatement.executeUpdate(); // データベースに挿入
 
@@ -46,7 +46,7 @@ public class PersonalTableOpenChange extends AsyncTask<Void, Void, Void> {
                 if (connection != null) connection.close();
                 if (preparedStatement != null) preparedStatement.close();
             } catch (SQLException e) {
-                Log.d("error", "データベースに接続できていない");
+                Log.d("error", "データベースアクセスエラー");
             }
         }
         return null;

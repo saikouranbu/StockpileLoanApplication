@@ -21,14 +21,13 @@ public class MainModel {
     private MainActivity activity;
 
     private static final int REQUEST_LOCATION = 1; // 識別用:位置情報の許可
-    private UseProperties useProperties;
 
     private Switch openSwitch;
 
     public MainModel(MainActivity activity){
         this.activity = activity;
 
-        useProperties = new UseProperties(activity.getApplicationContext());
+        UseProperties useProperties = new UseProperties(activity.getApplicationContext());
 
         openSwitch = (Switch) activity.findViewById(R.id.stockpileOpenSwitch);
 
@@ -65,6 +64,7 @@ public class MainModel {
 
     // パーソナルデータが登録されていたらtrue
     private boolean isPersonalDataEmpty() {
+        UseProperties useProperties = new UseProperties(activity);
         if (useProperties.isRegisteredProperties()) {
             return true;
         } else {
@@ -91,12 +91,13 @@ public class MainModel {
 
     // 備蓄品データ公開スイッチのon,off時の処理
     public void checkedSwitch() {
+        UseProperties useProperties = new UseProperties(activity);
         if (!isPersonalDataEmpty()) {
             // パーソナルデータ未登録の場合
             // 何も処理せずにスイッチを戻す
             openSwitch.toggle();
             return;
-        } else if (!useProperties.isStockpileRegistered() && !openSwitch.isChecked()) {
+        } else if (!useProperties.isStockpileRegistered() && openSwitch.isChecked()) {
             // 備蓄品データ未登録の場合（ただし備蓄品データ登録画面で全削除してきた場合を除く）
             // 何も処理せずにスイッチを戻す
             Toast.makeText(activity, "備蓄品データを登録してください", Toast.LENGTH_SHORT).show();
@@ -105,7 +106,7 @@ public class MainModel {
         } else {
             if (openSwitch.isChecked()) {
                 // on時の処理
-                AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
+                final AlertDialog.Builder alertDlg = new AlertDialog.Builder(activity);
                 alertDlg.setTitle("備蓄品データを公開");
                 alertDlg.setMessage("備蓄品データを公開することで備蓄品マップが利用可能になります\n" +
                         "備蓄品データを公開中はパーソナルデータに登録された連絡先を他ユーザーに公開してしまうので災害時だけにご利用ください\n\n" +
@@ -117,11 +118,12 @@ public class MainModel {
                                 // はい ボタンクリック処理
                                 Toast.makeText(activity, "処理完了メッセージが出るまで待機してください", Toast.LENGTH_SHORT).show();
 
+                                UseProperties properties = new UseProperties(activity);
                                 // プロパティファイルに保存
-                                useProperties.setOpenData(true);
+                                properties.setOpenData(true);
 
                                 // データベースに送信
-                                PersonalTableOpenChange change = new PersonalTableOpenChange(useProperties);
+                                PersonalTableOpenChange change = new PersonalTableOpenChange(properties);
                                 try {
                                     change.execute();
                                     Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();
@@ -159,11 +161,12 @@ public class MainModel {
                                 // はい ボタンクリック処理
                                 Toast.makeText(activity, "処理完了メッセージが出るまで待機してください", Toast.LENGTH_SHORT).show();
 
+                                UseProperties properties = new UseProperties(activity);
                                 // プロパティファイルに保存
-                                useProperties.setOpenData(false);
+                                properties.setOpenData(false);
 
                                 // データベースに送信
-                                PersonalTableOpenChange change = new PersonalTableOpenChange(useProperties);
+                                PersonalTableOpenChange change = new PersonalTableOpenChange(properties);
                                 try {
                                     change.execute();
                                     Toast.makeText(activity, "処理が完了しました", Toast.LENGTH_SHORT).show();

@@ -25,17 +25,17 @@ public class StockpileTableDelete extends AsyncTask<Void, Void, Void> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(DbConnector.getUrl(), DbConnector.USER, DbConnector.PASS);
-            String sql = "delete from stockpile_tbl where personal_id = ?;";
+            String sql = "delete from stockpile_tbl where stockpile_point = ?";
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, properties.getPersonalId()); // パーソナルID
+            preparedStatement.setString(1, properties.getStockpilePoint()); // 備蓄地点
 
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
             connection.close();
 
-            properties.setRegistered(false); // プロパティファイルに備蓄品データを未登録であることを保存
+            properties.setStockpileRegistered(false); // プロパティファイルに備蓄品データを未登録であることを保存
 
             Log.d("delete", "Completed");
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class StockpileTableDelete extends AsyncTask<Void, Void, Void> {
                 if (connection != null) connection.close();
                 if (preparedStatement != null) preparedStatement.close();
             } catch (SQLException e) {
-                Log.d("error", "データベースに接続できていない");
+                Log.d("error", "データベースアクセスエラー");
             }
         }
         return null;

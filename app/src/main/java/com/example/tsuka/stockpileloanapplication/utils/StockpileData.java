@@ -1,34 +1,47 @@
 package com.example.tsuka.stockpileloanapplication.utils;
 
 public class StockpileData {
-    private String stockpileName;
+    private int stockpileName;
     private String stockpileReqNum;
-    private String stockpileNumUnit;
     private String stockpileNum;
+    private int emergencyLevelPosition;
+
+    private final String[] STOCKPILES = {
+            "飲料水500ml", "飲料水2L", "保存食", "毛布",
+            "ダンボール", "コンロ", "皿", "コップ", "箸",
+            "スプーン", "ガムテープ", "はさみ", "紐", "ロープ"
+    };
+    private final String[] EMERGENCY_LEVEL = {
+            "配送中", "-", "低", "中", "高"
+    };
 
     private static final int OVER_REQ = 1; // 備蓄個数が必要数を上回っている
     private static final int SAME_REQ = 0; // 備蓄個数が必要数と同等
     private static final int UNDER_REQ = -1; // 備蓄個数が必要数を下回っている
 
     public StockpileData() {
-        stockpileName = "";
+        stockpileName = 0;
         stockpileReqNum = "1";
-        stockpileNumUnit = "";
         stockpileNum = "1";
+        emergencyLevelPosition = 4;
     }
 
-    public StockpileData(String stockpileName, String stockpileReqNum, String stockpileNumUnit, String stockpileNum) {
+    public StockpileData(int stockpileName, String stockpileReqNum, String stockpileNum, int emergencyLevelPosition) {
         this.stockpileName = stockpileName;
         this.stockpileReqNum = stockpileReqNum;
-        this.stockpileNumUnit = stockpileNumUnit;
         this.stockpileNum = stockpileNum;
+        this.emergencyLevelPosition = emergencyLevelPosition;
     }
 
-    public String getStockpileName() {
+    public int getStockpileNamePosition() {
         return stockpileName;
     }
 
-    public void setStockpileName(String stockpileName) {
+    public String getStockpileName(){
+        return STOCKPILES[stockpileName];
+    }
+
+    public void setStockpileName(int stockpileName) {
         this.stockpileName = stockpileName;
     }
 
@@ -40,14 +53,6 @@ public class StockpileData {
         this.stockpileReqNum = stockpileReqNum;
     }
 
-    public String getStockpileNumUnit() {
-        return stockpileNumUnit;
-    }
-
-    public void setStockpileNumUnit(String stockpileNumUnit) {
-        this.stockpileNumUnit = stockpileNumUnit;
-    }
-
     public String getStockpileNum() {
         return stockpileNum;
     }
@@ -56,12 +61,22 @@ public class StockpileData {
         this.stockpileNum = stockpileNum;
     }
 
+    public int getEmergencyLevelPosition(){
+        return emergencyLevelPosition;
+    }
+
+    public String getEmergencyLevel(){
+        return EMERGENCY_LEVEL[emergencyLevelPosition];
+    }
+
+    public void setEmergencyLevelPosition(int emergencyLevelPosition){
+        this.emergencyLevelPosition = emergencyLevelPosition;
+    }
+
     // 備蓄品データがすべて入力済みかどうかの確認
     // 入力済みならtrue
     public boolean isCompletedStockpileData() {
-        if (stockpileName.length() != 0 &&
-                stockpileReqNum.length() != 0 &&
-                stockpileNumUnit.length() != 0 &&
+        if (stockpileReqNum.length() != 0 &&
                 stockpileNum.length() != 0)
             return true;
         else return false;
@@ -81,7 +96,12 @@ public class StockpileData {
         }
     }
 
+    // 備蓄数－必要数
+    public int getSubNum(){
+        return Integer.parseInt(getStockpileNum())-Integer.parseInt(getStockpileReqNum());
+    }
+
     public String toString() {
-        return stockpileName;
+        return getStockpileName();
     }
 }

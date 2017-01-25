@@ -16,6 +16,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private LatLng latLng;
+    private String stockpilePoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // 現在位置情報を受け取る
         Intent intent = getIntent();
+        stockpilePoint = intent.getStringExtra("stockpilePoint");
         Double lat = Double.parseDouble(intent.getStringExtra("lat"));
         Double lng = Double.parseDouble(intent.getStringExtra("lng"));
         latLng = new LatLng(lat, lng);
@@ -38,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // マップに現在位置のマーカーを表示し視点を現在位置に移動
-        mMap.addMarker(new MarkerOptions().position(latLng).title("現在位置"));
+        mMap.addMarker(new MarkerOptions().position(latLng).title(stockpilePoint));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         latLng = null;
