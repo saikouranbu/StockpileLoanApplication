@@ -44,7 +44,7 @@ public class StockpileEntryModel {
         useProperties = new UseProperties(activity.getApplicationContext());
 
         // データベースにデータが登録済みの場合データを取得
-        if(useProperties.isStockpileRegistered()) stockpileGetList();
+        //if(useProperties.isStockpileRegistered()) stockpileGetList();
 
         stockpileListAdapter = new StockpileListAdapter(activity, stockpileList);
         updateListView();
@@ -91,10 +91,6 @@ public class StockpileEntryModel {
         if (!isCompletedStockpileList()) {
             // 備蓄品データに未入力がある場合
             Toast.makeText(activity, "備蓄品データがすべて入力されていません", Toast.LENGTH_SHORT).show();
-            return;
-        }else if(!isListOverReqNum()){
-            // 備蓄品データが一つも必要数を個数が上回っていない場合
-            Toast.makeText(activity, "最低一つの備蓄品は貸借できるように必要数より多く備蓄してください", Toast.LENGTH_SHORT).show();
             return;
         }else{
             Toast.makeText(activity, "備蓄品データの送信を開始しました", Toast.LENGTH_SHORT).show();
@@ -191,16 +187,6 @@ public class StockpileEntryModel {
             if (!stock.isCompletedStockpileData()) return false;
         }
         return true;
-    }
-
-    // 備蓄品リストのデータの内最低一つは個数が必要数を上回っているか確認
-    // (貸借できる備蓄品があるか)
-    // 上回っているならtrue
-    private boolean isListOverReqNum() {
-        for (StockpileData stock : stockpileList) {
-            if (stock.isOverReqNum()) return true;
-        }
-        return false;
     }
 
     // 背景をタップしたときにキーボードを閉じる

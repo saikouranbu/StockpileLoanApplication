@@ -23,4 +23,20 @@
     <string name="stockpile_search">検索ワード</string>
     <string name="stockpile_search_edit_hint">備蓄品名を入力</string>
     <string name="title_activity_stockpile_maps">Map</string>
+    <string-array name="stockpile_list">
+        <item>飲料水500ml</item>
+        <item>飲料水2L</item>
+        <item>保存食</item>
+        <item>毛布</item>
+        <item>ダンボール</item>
+        <item>コンロ</item>
+        <item>皿</item>
+        <item>コップ</item>
+        <item>箸</item>
+        <item>スプーン</item>
+        <item>ガムテープ</item>
+        <item>はさみ</item>
+        <item>紐</item>
+        <item>ロープ</item>
+    </string-array>
 </resources>

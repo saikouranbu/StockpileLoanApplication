@@ -4,21 +4,19 @@
     android:layout_height="wrap_content"
     android:background="@color/listBackground">
 
-    <EditText
-        android:id="@+id/stockpileName"
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/stockpileNameSpinner"
         android:layout_weight="1"
-        android:maxLength="255"
-        android:inputType="text|textPersonName" />
+        android:spinnerMode="dialog"
+        android:entries="@array/stockpile_list" />
 
-    <EditText
-        android:id="@+id/stockpileReqNum"
-        android:layout_height="wrap_content"
+    <NumberPicker
         android:layout_width="60dp"
-        android:gravity="right"
-        android:maxLength="5"
-        android:inputType="textPersonName|number" />
+        android:layout_height="wrap_content"
+        android:id="@+id/stockpileReqNum"
+        android:layout_weight="1" />
 
     <EditText
         android:id="@+id/stockpileNumUnitEdit"

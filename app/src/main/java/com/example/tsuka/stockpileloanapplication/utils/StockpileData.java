@@ -6,11 +6,15 @@ public class StockpileData {
     private String stockpileNumUnit;
     private String stockpileNum;
 
+    private static final int OVER_REQ = 1; // 備蓄個数が必要数を上回っている
+    private static final int SAME_REQ = 0; // 備蓄個数が必要数と同等
+    private static final int UNDER_REQ = -1; // 備蓄個数が必要数を下回っている
+
     public StockpileData() {
         stockpileName = "";
-        stockpileReqNum = "";
+        stockpileReqNum = "1";
         stockpileNumUnit = "";
-        stockpileNum = "";
+        stockpileNum = "1";
     }
 
     public StockpileData(String stockpileName, String stockpileReqNum, String stockpileNumUnit, String stockpileNum) {
@@ -65,13 +69,15 @@ public class StockpileData {
 
     // 備蓄品データの個数が必要数を上回っているかどうかの確認
     // 上回っているならtrue
-    public boolean isOverReqNum() {
+    public int compareReqNum() {
         int reqNum = Integer.parseInt(getStockpileReqNum());
         int num = Integer.parseInt(getStockpileNum());
         if (num > reqNum) {
-            return true;
+            return OVER_REQ;
+        } else if (num < reqNum) {
+            return UNDER_REQ;
         } else {
-            return false;
+            return SAME_REQ;
         }
     }
 
