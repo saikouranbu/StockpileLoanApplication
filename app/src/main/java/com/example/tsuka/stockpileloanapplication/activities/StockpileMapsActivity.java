@@ -146,8 +146,11 @@ public class StockpileMapsActivity extends FragmentActivity implements OnMapRead
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                 }else if(stock.getEmergencyLevelPosition() == 3){ // 緊急度中
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                }else{ // 緊急度高
+                }else if(stock.getEmergencyLevelPosition() == 4){ // 緊急度高
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }else{
+                    // 配送待ち
+                    personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 }
                 mMap.addMarker(personalMarker);
             } else {

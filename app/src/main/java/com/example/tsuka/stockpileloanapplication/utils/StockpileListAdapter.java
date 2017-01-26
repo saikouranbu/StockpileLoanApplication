@@ -21,7 +21,7 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
             "スプーン", "ガムテープ", "はさみ", "紐", "ロープ"
     };
     private final String[] EMERGENCY_LEVEL = {
-            "配送", "-", "低", "中", "高"
+            "待機", "-", "低", "中", "高"
     };
     private LayoutInflater inflater;
     private Context context;
@@ -82,8 +82,11 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
                     // フォーカスが外れた場合dataを更新する
                     data.setStockpileReqNum(finalViewHolder.stockpileReqNum.getText().toString());
                     EditText edit = (EditText) v;
-                    int reqNum = Integer.parseInt(edit.getText().toString());
-                    int num = Integer.parseInt(finalViewHolder.stockpileNum.getText().toString());
+                    String strReqNum = edit.getText().toString();
+                    String strNum = finalViewHolder.stockpileNum.getText().toString();
+                    if (strReqNum.length() == 0 || strNum.length() == 0) return;
+                    int reqNum = Integer.parseInt(strReqNum);
+                    int num = Integer.parseInt(strNum);
                     if (num > reqNum) {
                         finalViewHolder.emergencyLevel.setSelection(1); // ハイフン
                     } else if (num < reqNum && finalViewHolder.emergencyLevel.getSelectedItemPosition() == 1) {
@@ -100,8 +103,11 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
                     // フォーカスが外れた場合dataを更新する
                     data.setStockpileNum(finalViewHolder.stockpileNum.getText().toString());
                     EditText edit = (EditText) v;
-                    int reqNum = Integer.parseInt(finalViewHolder.stockpileReqNum.getText().toString());
-                    int num = Integer.parseInt(edit.getText().toString());
+                    String strReqNum = finalViewHolder.stockpileReqNum.getText().toString();
+                    String strNum = edit.getText().toString();
+                    if (strReqNum.length() == 0 || strNum.length() == 0) return;
+                    int reqNum = Integer.parseInt(strReqNum);
+                    int num = Integer.parseInt(strNum);
                     if (num > reqNum) {
                         finalViewHolder.emergencyLevel.setSelection(1); // ハイフン
                     } else if (num < reqNum && finalViewHolder.emergencyLevel.getSelectedItemPosition() == 1) {
@@ -116,8 +122,19 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner spinner = (Spinner) parent;
 
-                int reqNum = Integer.parseInt(finalViewHolder.stockpileReqNum.getText().toString());
-                int num = Integer.parseInt(finalViewHolder.stockpileNum.getText().toString());
+                String strReqNum = finalViewHolder.stockpileReqNum.getText().toString();
+                String strNum = finalViewHolder.stockpileNum.getText().toString();
+                if (strReqNum.length() == 0 || strNum.length() == 0) {
+                    finalViewHolder.stockpileReqNum.setText("1");
+                    data.setStockpileReqNum("1");
+                    finalViewHolder.stockpileNum.setText("1");
+                    data.setStockpileNum("1");
+                    finalViewHolder.emergencyLevel.setSelection(1); // ハイフン
+                    data.setEmergencyLevelPosition(spinner.getSelectedItemPosition());
+                    return;
+                }
+                int reqNum = Integer.parseInt(strReqNum);
+                int num = Integer.parseInt(strNum);
                 if (num > reqNum) {
                     finalViewHolder.emergencyLevel.setSelection(1); // ハイフン
                 }

@@ -12,7 +12,7 @@ public class StockpileData {
             "スプーン", "ガムテープ", "はさみ", "紐", "ロープ"
     };
     private final String[] EMERGENCY_LEVEL = {
-            "配送中", "-", "低", "中", "高"
+            "配送待ち", "-", "低", "中", "高"
     };
 
     private static final int OVER_REQ = 1; // 備蓄個数が必要数を上回っている
