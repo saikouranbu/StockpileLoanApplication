@@ -89,9 +89,6 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
                     int num = Integer.parseInt(strNum);
                     if (num > reqNum) {
                         finalViewHolder.emergencyLevel.setSelection(1); // ハイフン
-                    } else if (num < reqNum && finalViewHolder.emergencyLevel.getSelectedItemPosition() == 1) {
-                        // 必要数より備蓄数が不足しているのに緊急度がハイフンの場合緊急度低にする
-                        finalViewHolder.emergencyLevel.setSelection(2); // 緊急度低
                     }
                 }
             }
@@ -110,9 +107,6 @@ public class StockpileListAdapter extends ArrayAdapter<StockpileData> {
                     int num = Integer.parseInt(strNum);
                     if (num > reqNum) {
                         finalViewHolder.emergencyLevel.setSelection(1); // ハイフン
-                    } else if (num < reqNum && finalViewHolder.emergencyLevel.getSelectedItemPosition() == 1) {
-                        // 必要数より備蓄数が不足しているのに緊急度がハイフンの場合緊急度低にする
-                        finalViewHolder.emergencyLevel.setSelection(2); // 緊急度低
                     }
                 }
             }

@@ -118,7 +118,6 @@ public class StockpileMapsActivity extends FragmentActivity implements OnMapRead
 
             personalMarker = new MarkerOptions().position(personal.getLatLng()).title(personal.getStockpilePoint());
 
-
             snippetBuilder = new StringBuilder();
             snippetBuilder.append("連絡先1:");
             snippetBuilder.append(personal.getContactInfo());
@@ -144,15 +143,19 @@ public class StockpileMapsActivity extends FragmentActivity implements OnMapRead
                 personalMarker.snippet(snippetBuilder.toString());
                 if(stock.getEmergencyLevelPosition() == 2){ // 緊急度低
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                    mMap.addMarker(personalMarker);
                 }else if(stock.getEmergencyLevelPosition() == 3){ // 緊急度中
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    mMap.addMarker(personalMarker);
                 }else if(stock.getEmergencyLevelPosition() == 4){ // 緊急度高
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }else{
-                    // 配送待ち
+                    mMap.addMarker(personalMarker);
+                }else if(stock.getEmergencyLevelPosition() == 0){ // 配送待ち
                     personalMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    mMap.addMarker(personalMarker);
+                }else{
+                    // 備蓄個数が必要数を下回っているが緊急度がハイフンの場合マーカーを追加しない
                 }
-                mMap.addMarker(personalMarker);
             } else {
                 // 備蓄個数が必要数と同等の場合マップに表示しない
             }
